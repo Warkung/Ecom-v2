@@ -15,3 +15,19 @@ exports.login = (req, res) => {
     internalErr(res, error);
   }
 };
+
+exports.getCurrentUser = (req, res) => {
+  try {
+    res.send("Hello getCurrentUser");
+  } catch (error) {
+    internalErr(res, error);
+  }
+};
+
+exports.getCurrentAdmin = (req, res) => {
+  try {
+    res.send("Hello getCurrentAdmin");
+  } catch (error) {
+    internalErr(res, error);
+  }
+};
