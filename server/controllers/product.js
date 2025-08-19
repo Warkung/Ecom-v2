@@ -1,9 +1,20 @@
+const prisma = require("../config/prisma");
 const internalErr = require("../utils/InternalError");
 
 exports.createProduct = async (req, res) => {
   try {
     const { title, description, price, quantity, categoryId, images } =
       req.body;
+    const product = await prisma.product.create({
+      data: {
+        title,
+        description,
+        price,
+        quantity,
+        categoryId,
+      },
+    });
+
     res.send(`crate product ${title}`);
   } catch (error) {
     internalErr(res, error);
