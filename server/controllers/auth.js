@@ -6,15 +6,17 @@ const jwt = require("jsonwebtoken");
 exports.register = async (req, res) => {
   try {
     const { email, password } = req.body;
-    if (!email) res.status(400).json({ message: "Email is required" });
-    if (!password) res.status(400).json({ message: "Password is required" });
+    if (!email) return res.status(400).json({ message: "Email is required" });
+    if (!password)
+      return res.status(400).json({ message: "Password is required" });
 
     const checkEmail = await prisma.user.findFirst({
       where: {
         email,
       },
     });
-    if (checkEmail) res.status(400).json({ message: "Email already exists" });
+    if (checkEmail)
+      return res.status(400).json({ message: "Email already exists" });
 
     const hashPassword = await bcrypt.hash(password, 10);
 

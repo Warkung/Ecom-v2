@@ -5,17 +5,25 @@ exports.createProduct = async (req, res) => {
   try {
     const { title, description, price, quantity, categoryId, images } =
       req.body;
+    const productExists = await prisma.product.findFirst({
+      where: {
+        title: title,
+      },
+    });
+    if (productExists) return res.status(400).send("Product already exists");
+
     const product = await prisma.product.create({
       data: {
-        title,
-        description,
-        price,
-        quantity,
-        categoryId,
+        title: title,
+        description: description,
+        price: parseFloat(price),
+        quantity: parseInt(quantity),
+        categoryId: parseInt(categoryId),
+        images,
       },
     });
 
-    res.send(`crate product ${title}`);
+    res.status(200).json({ message: "Create product success", product });
   } catch (error) {
     internalErr(res, error);
   }

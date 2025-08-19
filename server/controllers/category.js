@@ -4,13 +4,19 @@ const internalErr = require("../utils/InternalError");
 exports.createCategory = async (req, res) => {
   try {
     const { name } = req.body;
+    const checkCategory = await prisma.category.findFirst({
+      where: {
+        name,
+      },
+    });
+    if (checkCategory)
+      return res.status(400).json({ message: "Category already exists" });
+
     const category = await prisma.category.create({
       data: {
         name,
       },
     });
-    if (category.name === name)
-      res.status(400).json({ message: "Category already exists" });
 
     res.status(200).json({ message: "Create category successfully" });
   } catch (error) {
@@ -38,16 +44,15 @@ exports.deleteCategory = async (req, res) => {
         id: Number(id),
       },
     });
-    if (!checkCategory) res.status(404).json({ message: "Category not found" });
-    console.log(checkCategory);
+    if (!checkCategory)
+      return res.status(404).json({ message: "Category not found" });
 
     const category = await prisma.category.delete({
       where: {
         id: Number(id),
       },
     });
-    res.status(200).json({ message: `${category.name} deleted` });
-    res.send("hello");
+    res.status(200).json({ message: `Delete category success`, category });
   } catch (error) {
     internalErr(res.error);
   }

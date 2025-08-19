@@ -9,7 +9,6 @@ generator client {
   output   = "../generated/prisma"
 }
 
-
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
@@ -42,6 +41,8 @@ model Product {
   images      Image[]
   createdAt   DateTime         @default(now())
   updateAt    DateTime         @updatedAt
+  Category    Category         @relation(fields: [categoryId], references: [id])
+  categoryId  Int
 }
 
 model ProductOnOrder {
@@ -64,10 +65,11 @@ model Order {
 }
 
 model Category {
-  id       Int      @id @default(autoincrement())
+  id       Int       @id @default(autoincrement())
   name     String
-  createAt DateTime @default(now())
-  updateAt DateTime @updatedAt
+  product  Product[]
+  createAt DateTime  @default(now())
+  updateAt DateTime  @updatedAt
 }
 
 model Cart {
