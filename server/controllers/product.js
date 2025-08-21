@@ -1,5 +1,13 @@
 const prisma = require("../config/prisma");
 const internalErr = require("../utils/InternalError");
+const cloudinary = require("cloudinary").v2;
+
+// Config cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 exports.createProduct = async (req, res) => {
   try {
@@ -10,8 +18,9 @@ exports.createProduct = async (req, res) => {
         title: title,
       },
     });
-    if (productExists) return res.status(400).send("Product already exists");
-
+    if (productExists) {
+      return res.status(400).json({ message: "Product already exists" });
+    }
     const product = await prisma.product.create({
       data: {
         title: title,
@@ -19,7 +28,16 @@ exports.createProduct = async (req, res) => {
         price: parseFloat(price),
         quantity: parseInt(quantity),
         categoryId: parseInt(categoryId),
-        images,
+        images: {
+          create: images.map((item) => {
+            return {
+              asset_id: item.asset_id,
+              public_id: item.public_id,
+              url: item.url,
+              secure_url: item.secure_url,
+            };
+          }),
+        },
       },
     });
 
@@ -29,10 +47,67 @@ exports.createProduct = async (req, res) => {
   }
 };
 
+exports.upLoadImages = async (req, res) => {
+  try {
+    const result = await cloudinary.uploader.upload(req.body.image, {
+      public_id: `${Date.now()}`,
+      resource_type: "auto",
+      folder: "ecommerce",
+    });
+    res.send(result);
+  } catch (error) {
+    internalErr(res, error);
+  }
+};
+
+exports.removeImages = async (req, res) => {
+  try {
+    const { public_id } = req.body;
+    await cloudinary.uploader.destroy(public_id, () =>
+      res.send("Delete success")
+    );
+
+    res.send("Delete success");
+  } catch (error) {
+    internalErr(res, error);
+  }
+};
+
+exports.listProducts = async (req, res) => {
+  try {
+    const { count } = req.params;
+    const products = await prisma.product.findMany({
+      take: parseInt(count),
+      orderBy: { createdAt: "desc" },
+      include: {
+        Category: {
+          select: {
+            name: true,
+          },
+        },
+        images: true,
+      },
+    });
+    res.status(200).json({ message: `List products ${count} item`, products });
+  } catch (error) {
+    internalErr(res, error);
+  }
+};
+
 exports.getProductById = async (req, res) => {
   try {
     const { id } = req.params;
-    res.send(`get product by id ${id}`);
+    const product = await prisma.product.findUnique({
+      where: {
+        id: parseInt(id),
+      },
+      include: {
+        Category: true,
+        images: true,
+      },
+    });
+    if (!product) return res.status(404).json({ message: "Product not found" });
+    res.status(200).json({ message: `Get product success`, product });
   } catch (error) {
     internalErr(res, error);
   }
@@ -41,7 +116,39 @@ exports.getProductById = async (req, res) => {
 exports.updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    res.send(`update product id ${id}`);
+    const { title, description, price, quantity, categoryId, images } =
+      req.body;
+
+    await prisma.image.deleteMany({
+      where: {
+        productId: parseInt(id),
+      },
+    });
+
+    const product = await prisma.product.update({
+      where: {
+        id: parseInt(id),
+      },
+      data: {
+        title: title,
+        description: description,
+        price: parseFloat(price),
+        quantity: parseInt(quantity),
+        categoryId: parseInt(categoryId),
+        images: {
+          create: images.map((item) => {
+            return {
+              asset_id: item.asset_id,
+              public_id: item.public_id,
+              url: item.url,
+              secure_url: item.secure_url,
+            };
+          }),
+        },
+      },
+    });
+
+    res.status(200).json({ message: "Update success", product });
   } catch (error) {
     internalErr(res, error);
   }
@@ -50,16 +157,51 @@ exports.updateProduct = async (req, res) => {
 exports.deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    res.send(`delete product by id ${id}`);
+
+    const product = await prisma.product.findUnique({
+      where: {
+        id: parseInt(id),
+      },
+      include: {
+        images: true,
+      },
+    });
+    if (!product) return res.status(404).json({ message: "Product not found" });
+    const deletedImages = product.images.map((image) => {
+      return new Promise((resolve, reject) => {
+        cloudinary.uploader.destroy(image.public_id, (error, result) => {
+          if (error) reject(error);
+          resolve(result);
+        });
+      });
+    });
+    await Promise.all(deletedImages);
+
+    await prisma.product.delete({
+      where: {
+        id: parseInt(id),
+      },
+    });
+    res.status(200).json({ message: "Delete success" });
   } catch (error) {
     internalErr(res, error);
   }
 };
 
-exports.getProductByFilters = async (req, res) => {
+exports.listProductBy = async (req, res) => {
   try {
     const { sort, order, limit } = req.body;
-    res.send(`filters product ${sort}`);
+    const products = await prisma.product.findMany({
+      orderBy: {
+        [sort]: order,
+      },
+      take: parseInt(limit),
+      include: {
+        Category: true,
+        images: true,
+      },
+    });
+    res.status(200).json({ message: { sort, order, limit }, products });
   } catch (error) {
     internalErr(res, error);
   }
