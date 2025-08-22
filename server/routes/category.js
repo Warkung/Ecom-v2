@@ -3,10 +3,14 @@ const {
   getCategories,
   deleteCategory,
 } = require("../controllers/category");
+const { authCheck, adminCheck } = require("../middlewares/authCheck");
 
 const router = require("express").Router();
 
-router.route("/category").post(createCategory).get(getCategories);
-router.route("/category/:id").delete(deleteCategory);
+router
+  .route("/category")
+  .post(authCheck, adminCheck, createCategory)
+  .get(authCheck, adminCheck, getCategories);
+router.route("/category/:id").delete(authCheck, adminCheck, deleteCategory);
 
 module.exports = router;

@@ -1,22 +1,22 @@
 const {
-  getUser,
+  getAllUsers,
   changeUserStatus,
   changeUserRole,
   getCart,
-  deleteCart,
+  emptyCart,
   addToCart,
-  addUserAddress,
-  placeAndOrder,
-  getUserOder,
+  saveAddress,
+  saveOrder,
+  getOrder,
 } = require("../controllers/user");
 
 const router = require("express").Router();
 
-router.route("/users").get(getUser);
+router.route("/users").get(getAllUsers);
 router.route("/change-status").post(changeUserStatus);
 router.route("/change-role").post(changeUserRole);
-router.route("/user/cart").post(addToCart).get(getCart).delete(deleteCart);
-router.route("/user/address").post(addUserAddress);
-router.route("/user/order").post(placeAndOrder).all(getUserOder);
+router.route("/user/cart").post(addToCart).get(getCart).delete(emptyCart);
+router.route("/user/address").post(saveAddress);
+router.route("/user/order").post(saveOrder).get(getOrder);
 
 module.exports = router;

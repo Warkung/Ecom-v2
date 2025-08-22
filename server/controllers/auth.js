@@ -42,12 +42,13 @@ exports.login = async (req, res) => {
     if (!password) res.status(400).json({ message: "Password is required" });
 
     const user = await prisma.user.findFirst({
+      
       where: {
         email,
       },
     });
-    if (!user) res.status(400).json({ message: "User not found" });
-    if (!user.enable) res.status(400).json({ message: "User not enable" });
+    if (!user) return res.status(400).json({ message: "User not found" });
+    if (!user.enabled) return res.status(400).json({ message: "User not enable" });
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) res.status(400).json({ message: "Password invalid" });
