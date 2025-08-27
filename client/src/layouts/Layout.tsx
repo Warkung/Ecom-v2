@@ -1,11 +1,13 @@
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
+import MainNav from "../components/public/MainNav";
 
 export default function Layout() {
   return (
     <div>
-      <h1>Main Nav</h1>
-      <hr />
-      <Outlet />
+      <MainNav />
+      <main className="container mx-auto p-4">
+        <Outlet />
+      </main>
     </div>
   );
 }
