@@ -11,8 +11,8 @@ import Category from "../pages/adminPages/Category";
 import Product from "../pages/adminPages/Product";
 import LayoutUser from "../layouts/LayoutUser";
 import HomeUser from "../pages/userPages/HomeUser";
-import Checkout from "../pages/userPages/checkout";
 import Payment from "../pages/userPages/Payment";
+import Manage from "../pages/adminPages/Manage";
 
 const router = createBrowserRouter([
   // Public Pages
@@ -36,6 +36,7 @@ const router = createBrowserRouter([
       { index: true, element: <DashBoard /> },
       { path: "/admin/category", element: <Category /> },
       { path: "/admin/product", element: <Product /> },
+      { path: "/admin/manage", element: <Manage /> },
     ],
   },
 
@@ -45,7 +46,6 @@ const router = createBrowserRouter([
     element: <LayoutUser />,
     children: [
       { index: true, element: <HomeUser /> },
-      { path: "/user/checkout", element: <Checkout /> },
       { path: "/user/payment", element: <Payment /> },
     ],
   },

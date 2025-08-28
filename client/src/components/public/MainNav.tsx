@@ -1,7 +1,22 @@
-import { AlignJustify, X } from "lucide-react";
+import { AlignRight, X } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import useEcomStore from "../../store/ecomStore";
+
+const navLink = [
+  {
+    path: "/",
+    label: "Home",
+  },
+  {
+    path: "/shop",
+    label: "Shop",
+  },
+  {
+    path: "/cart",
+    label: "Cart",
+  },
+];
 
 export default function MainNav() {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,35 +29,30 @@ export default function MainNav() {
 
   return (
     <header className="bg-white shadow-md">
-      <nav className="container mx-auto px-6 py-3">
+      <nav className="container mx-auto h-14 ">
         <div className="flex items-center justify-between">
           <div className="hidden md:flex items-center space-x-4">
             <div className="text-xl font-semibold text-gray-700">
-              <Link
-                to="/"
-                className="text-gray-800 text-xl font-bold hover:text-gray-700"
-              >
-                Logo
-              </Link>
+              <div className="flex justify-start px-10 py-2 ">
+                <Link
+                  to="/"
+                  className="text-gray-800 text-2xl font-bold hover:text-gray-700"
+                >
+                  Logo
+                </Link>
+              </div>
             </div>
-            <Link
-              to="/"
-              className="py-2 px-3 text-gray-700 rounded hover:bg-gray-200"
-            >
-              Home
-            </Link>
-            <Link
-              to="/shop"
-              className="py-2 px-3 text-gray-700 rounded hover:bg-gray-200"
-            >
-              Shop
-            </Link>
-            <Link
-              to="/cart"
-              className="py-2 px-3 text-gray-700 rounded hover:bg-gray-200"
-            >
-              Cart
-            </Link>
+
+            {navLink.map((item, index) => (
+              <Link
+                key={index}
+                to={item.path}
+                className="py-2 px-3 text-gray-700 rounded hover:bg-gray-200"
+              >
+                {item.label}
+              </Link>
+            ))}
+
             {user && user.role === "admin" && (
               <Link
                 to="/admin"
@@ -100,7 +110,7 @@ export default function MainNav() {
               aria-label="toggle menu"
               aria-expanded={isOpen}
             >
-              {isOpen ? <X /> : <AlignJustify />}
+              {isOpen ? <X /> : <AlignRight />}
             </button>
           </div>
         </div>
