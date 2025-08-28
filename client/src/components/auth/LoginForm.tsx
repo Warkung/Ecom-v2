@@ -7,9 +7,14 @@ interface LoginFormProps {
     email: string;
     password: string;
   };
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
-export default function LoginForm({ handleChange, form }: LoginFormProps) {
+export default function LoginForm({
+  handleChange,
+  handleSubmit,
+  form,
+}: LoginFormProps) {
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -18,7 +23,10 @@ export default function LoginForm({ handleChange, form }: LoginFormProps) {
 
   return (
     <div className="w-full max-w-md">
-      <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+      <form
+        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+        onSubmit={handleSubmit}
+      >
         <h2 className="text-2xl mb-6 text-center font-bold text-gray-800">
           Login
         </h2>

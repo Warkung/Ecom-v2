@@ -1,25 +1,33 @@
 import { Eye, EyeClosed } from "lucide-react";
 import { useState } from "react";
 
-interface LoginFormProps {
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+interface RegisterFormProps {
   form: {
     email: string;
     password: string;
+    confirmPassword: string;
   };
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
-export default function RegisterForm({ form, handleChange }: LoginFormProps) {
+export default function RegisterForm({
+  form,
+  handleChange,
+  handleSubmit,
+}: RegisterFormProps) {
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
-
   return (
     <div className="w-full max-w-md">
-      <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+      <form
+        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+        onSubmit={handleSubmit}
+      >
         <h2 className="text-2xl mb-6 text-center font-bold text-gray-800">
-          Register
+          Create Account
         </h2>
         <div className="mb-6">
           <label
@@ -30,6 +38,8 @@ export default function RegisterForm({ form, handleChange }: LoginFormProps) {
           </label>
           <input
             onChange={handleChange}
+            name="email"
+            value={form.email}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="email"
             type="email"
@@ -51,6 +61,7 @@ export default function RegisterForm({ form, handleChange }: LoginFormProps) {
               onChange={handleChange}
               type={showPassword ? "text" : "password"}
               name="password"
+              value={form.password}
               id="password"
               placeholder="••••••••••••••••"
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
@@ -75,6 +86,7 @@ export default function RegisterForm({ form, handleChange }: LoginFormProps) {
           </label>
           <div className="relative">
             <input
+              onChange={handleChange}
               type={showPassword ? "text" : "password"}
               name="confirmPassword"
               id="confirmPassword"

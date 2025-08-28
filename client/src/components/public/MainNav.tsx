@@ -1,9 +1,16 @@
 import { AlignJustify, X } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import useEcomStore from "../../store/ecomStore";
 
 export default function MainNav() {
   const [isOpen, setIsOpen] = useState(false);
+  const { user, token } = useEcomStore((state) => state);
+
+  const handleLogout = () => {
+    localStorage.removeItem("ecom-store");
+    window.location.href = "/";
+  };
 
   return (
     <header className="bg-white shadow-md">
@@ -36,21 +43,43 @@ export default function MainNav() {
             >
               Cart
             </Link>
+            {user && user.role === "admin" && (
+              <Link
+                to="/admin"
+                className="py-2 px-3 w-full text-left text-gray-700 rounded hover:bg-gray-200"
+                onClick={() => setIsOpen(false)}
+              >
+                Admin
+              </Link>
+            )}
           </div>
-          <div className="hidden md:flex items-center space-x-4">
-            <Link
-              to="/login"
-              className="py-2 px-3 text-gray-700 rounded hover:bg-gray-200"
-            >
-              Login
-            </Link>
-            <Link
-              to="/register"
-              className="py-2 px-3 text-gray-700 rounded hover:bg-gray-200"
-            >
-              Register
-            </Link>
-          </div>
+
+          {user ? (
+            <div className="hidden md:flex items-center space-x-4">
+              <span className="text-gray-700">Hello, {user.email}</span>
+              <button
+                onClick={handleLogout}
+                className="py-2 px-3 text-gray-700 rounded hover:bg-gray-200"
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <div className="hidden md:flex items-center space-x-4">
+              <Link
+                to="/login"
+                className="py-2 px-3 text-gray-700 rounded hover:bg-gray-200"
+              >
+                Login
+              </Link>
+              <Link
+                to="/register"
+                className="py-2 px-3 text-gray-700 rounded hover:bg-gray-200"
+              >
+                Register
+              </Link>
+            </div>
+          )}
 
           {/* Mobile Logo */}
           <div className="md:hidden">
@@ -104,23 +133,50 @@ export default function MainNav() {
             >
               Cart
             </Link>
+            {user && user.role === "admin" && (
+              <Link
+                to="/admin"
+                className="py-2 px-3 w-full text-left text-gray-700 rounded hover:bg-gray-200"
+                onClick={() => setIsOpen(false)}
+              >
+                Admin
+              </Link>
+            )}
             <hr className="my-2 border-gray-200 w-full" />
-            <div className="flex flex-col w-full">
-              <Link
-                to="/login"
-                className="py-2 px-3 w-full text-left text-gray-700 rounded hover:bg-gray-200"
-                onClick={() => setIsOpen(false)}
-              >
-                Login
-              </Link>
-              <Link
-                to="/register"
-                className="py-2 px-3 w-full text-left text-gray-700 rounded hover:bg-gray-200"
-                onClick={() => setIsOpen(false)}
-              >
-                Register
-              </Link>
-            </div>
+
+            {user ? (
+              <div className="flex flex-col w-full">
+                <span className="py-2 px-3 w-full text-left text-gray-700">
+                  Hello, {user.email}
+                </span>
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    setIsOpen(false);
+                  }}
+                  className="py-2 px-3 w-full text-left text-gray-700 rounded hover:bg-gray-200"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <div className="flex flex-col w-full">
+                <Link
+                  to="/login"
+                  className="py-2 px-3 w-full text-left text-gray-700 rounded hover:bg-gray-200"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="py-2 px-3 w-full text-left text-gray-700 rounded hover:bg-gray-200"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Register
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </nav>
