@@ -1,32 +1,8 @@
-import { AlignRight, Monitor, UserRoundCog, X } from "lucide-react";
+import { AlignRight, UserRoundCog, X } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import useEcomStore from "../../store/ecomStore";
-import { MdCategory, MdDashboard, MdManageAccounts } from "react-icons/md";
-import { FiBox } from "react-icons/fi";
-
-const navLink = [
-  {
-    path: "/admin",
-    label: "Dashboard",
-    icon: <MdDashboard />,
-  },
-  {
-    path: "/admin/product",
-    label: "Products",
-    icon: <FiBox />,
-  },
-  {
-    path: "/admin/category",
-    label: "Categories",
-    icon: <MdCategory />,
-  },
-  {
-    path: "/admin/manage",
-    label: "Manage",
-    icon: <MdManageAccounts />,
-  },
-];
+import { adminNavLinks } from "../../utils/link";
 
 export default function HeaderAdmin() {
   const [isOpen, setIsOpen] = useState(false);
@@ -39,59 +15,63 @@ export default function HeaderAdmin() {
 
   return (
     <header className="bg-white shadow-md">
-      <nav className="container mx-auto ">
-        <div className="flex items-center justify-between">
-          <div className="hidden md:flex items-center space-x-4">
-            <div className="text-xl font-semibold text-gray-700">
-              <div className="flex justify-start px-10 py-2 ">
-                <Link
-                  to={"/"}
-                  className="text-gray-800 text-2xl font-bold hover:text-gray-700 texy-center"
-                >
-                  <UserRoundCog size={36} />
-                </Link>
-              </div>
+      <nav className="container ">
+        {/* Desktop Nav */}
+        <div className=" hidden md:flex justify-between px-18 py-2">
+          {/* Desktop Logo */}
+          <div className="flex">
+            <div className="text-gray-800 text-2xl font-bold hover:text-gray-700 mr-16">
+              <Link to="/">Logo</Link>
             </div>
-            {navLink.map((item, index) => (
+
+            {adminNavLinks.map((item, index) => (
               <Link
                 key={index}
                 to={item.path}
-                className="py-2 px-3 text-gray-700 rounded hover:bg-gray-200"
+                className="py-2 px-3 text-gray-700 rounded hover:bg-gray-200 "
               >
                 {item.label}
               </Link>
             ))}
           </div>
 
-          {user ? (
-            <div className="hidden md:flex items-center space-x-4">
-              <span className="text-gray-700">Hello, {user.email}</span>
-              <button
-                onClick={handleLogout}
-                className="py-2 px-3 text-gray-700 rounded hover:bg-gray-200"
-              >
-                Logout
-              </button>
-            </div>
-          ) : (
-            <div className="hidden md:flex items-center space-x-4">
-              <Link
-                to="/login"
-                className="py-2 px-3 text-gray-700 rounded hover:bg-gray-200"
-              >
-                Login
-              </Link>
-              <Link
-                to="/register"
-                className="py-2 px-3 text-gray-700 rounded hover:bg-gray-200"
-              >
-                Register
-              </Link>
-            </div>
-          )}
+          {/* Desktop Auth Links */}
+          <div className="items-center space-x-4 flex">
+            <UserRoundCog className="text-gray-600" />
+            {user ? (
+              <div>
+                <span className="text-gray-700">
+                  Hello, {user.name || user.email}
+                </span>
+                <button
+                  onClick={handleLogout}
+                  className="py-2 px-3 text-gray-700 rounded hover:bg-gray-200"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <div className="hidden md:flex items-center space-x-4">
+                <Link
+                  to="/login"
+                  className="py-2 px-3 text-gray-700 rounded hover:bg-gray-200"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="py-2 px-3 text-gray-700 rounded hover:bg-gray-200"
+                >
+                  Register
+                </Link>
+              </div>
+            )}
+          </div>
+        </div>
 
-          {/* Mobile Logo */}
-          <div className="md:hidden">
+        {/* Mobile */}
+        <div className="md:hidden flex justify-between px-6 py-2 sm:px-10 ">
+          <div>
             <Link
               to="/"
               className="text-gray-800 text-xl font-bold hover:text-gray-700"
@@ -101,7 +81,8 @@ export default function HeaderAdmin() {
           </div>
 
           {/* Mobile Hamburger Button */}
-          <div className="flex md:hidden">
+          <div className="flex gap-4">
+            <UserRoundCog />
             <button
               onClick={() => setIsOpen(!isOpen)}
               type="button"
@@ -116,48 +97,25 @@ export default function HeaderAdmin() {
 
         {/* Mobile Menu */}
         <div
-          className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-            isOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+          className={`md:hidden overflow-hidden transition-all duration-500 ease-in-out bg-white absolute right-4 sm:right-8 shadow-xl rounded-2xl px-8  ${
+            isOpen ? "max-h-screen" : "max-h-0 "
           }`}
         >
           <div className="flex flex-col items-start mt-2 space-y-1">
-            <Link
-              to="/"
-              className="py-2 px-3 w-full text-left text-gray-700 rounded hover:bg-gray-200"
-              onClick={() => setIsOpen(false)}
-            >
-              Home
-            </Link>
-            <Link
-              to="/shop"
-              className="py-2 px-3 w-full text-left text-gray-700 rounded hover:bg-gray-200"
-              onClick={() => setIsOpen(false)}
-            >
-              Shop
-            </Link>
-            <Link
-              to="/cart"
-              className="py-2 px-3 w-full text-left text-gray-700 rounded hover:bg-gray-200"
-              onClick={() => setIsOpen(false)}
-            >
-              Cart
-            </Link>
-            {user && user.role === "admin" && (
+            {adminNavLinks.map((item, index) => (
               <Link
-                to="/admin"
+                to={item.path}
+                key={index}
                 className="py-2 px-3 w-full text-left text-gray-700 rounded hover:bg-gray-200"
                 onClick={() => setIsOpen(false)}
               >
-                Admin
+                {item.label}
               </Link>
-            )}
-            <hr className="my-2 border-gray-200 w-full" />
+            ))}
 
+            <hr className="my-2 border-gray-200 w-full" />
             {user ? (
               <div className="flex flex-col w-full">
-                <span className="py-2 px-3 w-full text-left text-gray-700">
-                  Hello, {user.email}
-                </span>
                 <button
                   onClick={() => {
                     handleLogout();

@@ -2,21 +2,9 @@ import { AlignRight, X } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import useEcomStore from "../../store/ecomStore";
+import { navLinks } from "../../utils/link";
 
-const navLink = [
-  {
-    path: "/",
-    label: "Home",
-  },
-  {
-    path: "/shop",
-    label: "Shop",
-  },
-  {
-    path: "/cart",
-    label: "Cart",
-  },
-];
+
 
 export default function MainNav() {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,25 +17,20 @@ export default function MainNav() {
 
   return (
     <header className="bg-white shadow-md">
-      <nav className="container mx-auto h-14 ">
-        <div className="flex items-center justify-between">
-          <div className="hidden md:flex items-center space-x-4">
-            <div className="text-xl font-semibold text-gray-700">
-              <div className="flex justify-start px-10 py-2 ">
-                <Link
-                  to="/"
-                  className="text-gray-800 text-2xl font-bold hover:text-gray-700"
-                >
-                  Logo
-                </Link>
-              </div>
+      <nav className="container ">
+        {/* Desktop Nav */}
+        <div className=" hidden md:flex justify-between px-18 py-2">
+          {/* Desktop Logo */}
+          <div className="flex">
+            <div className="text-gray-800 text-2xl font-bold hover:text-gray-700 mr-16">
+              <Link to="/">Logo</Link>
             </div>
 
-            {navLink.map((item, index) => (
+            {navLinks.map((item, index) => (
               <Link
                 key={index}
                 to={item.path}
-                className="py-2 px-3 text-gray-700 rounded hover:bg-gray-200"
+                className="py-2 px-3 text-gray-700 rounded hover:bg-gray-200 "
               >
                 {item.label}
               </Link>
@@ -56,7 +39,7 @@ export default function MainNav() {
             {user && user.role === "admin" && (
               <Link
                 to="/admin"
-                className="py-2 px-3 w-full text-left text-gray-700 rounded hover:bg-gray-200"
+                className="py-2 px-3 text-gray-700 rounded hover:bg-gray-200 "
                 onClick={() => setIsOpen(false)}
               >
                 Admin
@@ -64,35 +47,42 @@ export default function MainNav() {
             )}
           </div>
 
-          {user ? (
-            <div className="hidden md:flex items-center space-x-4">
-              <span className="text-gray-700">Hello, {user.email}</span>
-              <button
-                onClick={handleLogout}
-                className="py-2 px-3 text-gray-700 rounded hover:bg-gray-200"
-              >
-                Logout
-              </button>
-            </div>
-          ) : (
-            <div className="hidden md:flex items-center space-x-4">
-              <Link
-                to="/login"
-                className="py-2 px-3 text-gray-700 rounded hover:bg-gray-200"
-              >
-                Login
-              </Link>
-              <Link
-                to="/register"
-                className="py-2 px-3 text-gray-700 rounded hover:bg-gray-200"
-              >
-                Register
-              </Link>
-            </div>
-          )}
+          {/* Desktop Auth Links */}
+          <div className="items-center space-x-4 ">
+            {user ? (
+              <>
+                <span className="text-gray-700">
+                  Hello, {user.name || user.email}
+                </span>
+                <button
+                  onClick={handleLogout}
+                  className="py-2 px-3 text-gray-700 rounded hover:bg-gray-200"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <div className="hidden md:flex items-center space-x-4">
+                <Link
+                  to="/login"
+                  className="py-2 px-3 text-gray-700 rounded hover:bg-gray-200"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="py-2 px-3 text-gray-700 rounded hover:bg-gray-200"
+                >
+                  Register
+                </Link>
+              </div>
+            )}
+          </div>
+        </div>
 
-          {/* Mobile Logo */}
-          <div className="md:hidden">
+        {/* Mobile */}
+        <div className="md:hidden flex justify-between px-6 py-2 sm:px-10 ">
+          <div>
             <Link
               to="/"
               className="text-gray-800 text-xl font-bold hover:text-gray-700"
@@ -102,7 +92,7 @@ export default function MainNav() {
           </div>
 
           {/* Mobile Hamburger Button */}
-          <div className="flex md:hidden">
+          <div className="">
             <button
               onClick={() => setIsOpen(!isOpen)}
               type="button"
@@ -117,32 +107,21 @@ export default function MainNav() {
 
         {/* Mobile Menu */}
         <div
-          className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-            isOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+          className={`md:hidden overflow-hidden transition-all duration-500 ease-in-out bg-white absolute right-4 sm:right-8 shadow-xl rounded-2xl px-8  ${
+            isOpen ? "max-h-screen" : "max-h-0 "
           }`}
         >
           <div className="flex flex-col items-start mt-2 space-y-1">
-            <Link
-              to="/"
-              className="py-2 px-3 w-full text-left text-gray-700 rounded hover:bg-gray-200"
-              onClick={() => setIsOpen(false)}
-            >
-              Home
-            </Link>
-            <Link
-              to="/shop"
-              className="py-2 px-3 w-full text-left text-gray-700 rounded hover:bg-gray-200"
-              onClick={() => setIsOpen(false)}
-            >
-              Shop
-            </Link>
-            <Link
-              to="/cart"
-              className="py-2 px-3 w-full text-left text-gray-700 rounded hover:bg-gray-200"
-              onClick={() => setIsOpen(false)}
-            >
-              Cart
-            </Link>
+            {navLinks.map((item, index) => (
+              <Link
+                to={item.path}
+                key={index}
+                className="py-2 px-3 w-full text-left text-gray-700 rounded hover:bg-gray-200"
+                onClick={() => setIsOpen(false)}
+              >
+                {item.label}
+              </Link>
+            ))}
             {user && user.role === "admin" && (
               <Link
                 to="/admin"
@@ -153,12 +132,8 @@ export default function MainNav() {
               </Link>
             )}
             <hr className="my-2 border-gray-200 w-full" />
-
             {user ? (
               <div className="flex flex-col w-full">
-                <span className="py-2 px-3 w-full text-left text-gray-700">
-                  Hello, {user.email}
-                </span>
                 <button
                   onClick={() => {
                     handleLogout();
