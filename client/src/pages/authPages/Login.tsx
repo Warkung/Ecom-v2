@@ -35,6 +35,7 @@ export default function Login() {
       } else {
         navigate(-1);
         toast.success("Wellcome back!", {
+          position: "bottom-right",
           autoClose: 2000,
         });
       }

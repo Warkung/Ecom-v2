@@ -1,13 +1,22 @@
-import { AlignRight, X } from "lucide-react";
-import { useState } from "react";
+import { AlignRight, UserRoundCog, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import useEcomStore from "../../store/ecomStore";
-import { navLinks } from "../../utils/link";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../../components/ui/dropdown-menu";
 
-
-
-export default function MainNav() {
-  const [isOpen, setIsOpen] = useState(false);
+export default function MainNav({
+  navLinks,
+  linkAdmin,
+}: {
+  navLinks: { path: string; label: string }[];
+  linkAdmin: boolean;
+}) {
   const { user, token } = useEcomStore((state) => state);
 
   const handleLogout = () => {
@@ -35,12 +44,11 @@ export default function MainNav() {
                 {item.label}
               </Link>
             ))}
-
             {user && user.role === "admin" && (
               <Link
+                hidden={linkAdmin}
                 to="/admin"
                 className="py-2 px-3 text-gray-700 rounded hover:bg-gray-200 "
-                onClick={() => setIsOpen(false)}
               >
                 Admin
               </Link>
@@ -50,17 +58,16 @@ export default function MainNav() {
           {/* Desktop Auth Links */}
           <div className="items-center space-x-4 ">
             {user ? (
-              <>
-                <span className="text-gray-700">
-                  Hello, {user.name || user.email}
-                </span>
+              <div className="flex items-center gap-4">
+                {user && user.role === "admin" && <UserRoundCog />}
+                <span className="text-gray-700">{user.name || user.email}</span>
                 <button
                   onClick={handleLogout}
                   className="py-2 px-3 text-gray-700 rounded hover:bg-gray-200"
                 >
                   Logout
                 </button>
-              </>
+              </div>
             ) : (
               <div className="hidden md:flex items-center space-x-4">
                 <Link
@@ -92,76 +99,43 @@ export default function MainNav() {
           </div>
 
           {/* Mobile Hamburger Button */}
-          <div className="">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              type="button"
-              className="text-gray-500 hover:text-gray-600 focus:outline-none focus:text-gray-600"
-              aria-label="toggle menu"
-              aria-expanded={isOpen}
-            >
-              {isOpen ? <X /> : <AlignRight />}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Menu */}
-        <div
-          className={`md:hidden overflow-hidden transition-all duration-500 ease-in-out bg-white absolute right-4 sm:right-8 shadow-xl rounded-2xl px-8  ${
-            isOpen ? "max-h-screen" : "max-h-0 "
-          }`}
-        >
-          <div className="flex flex-col items-start mt-2 space-y-1">
-            {navLinks.map((item, index) => (
-              <Link
-                to={item.path}
-                key={index}
-                className="py-2 px-3 w-full text-left text-gray-700 rounded hover:bg-gray-200"
-                onClick={() => setIsOpen(false)}
-              >
-                {item.label}
-              </Link>
-            ))}
-            {user && user.role === "admin" && (
-              <Link
-                to="/admin"
-                className="py-2 px-3 w-full text-left text-gray-700 rounded hover:bg-gray-200"
-                onClick={() => setIsOpen(false)}
-              >
-                Admin
-              </Link>
-            )}
-            <hr className="my-2 border-gray-200 w-full" />
-            {user ? (
-              <div className="flex flex-col w-full">
-                <button
-                  onClick={() => {
-                    handleLogout();
-                    setIsOpen(false);
-                  }}
-                  className="py-2 px-3 w-full text-left text-gray-700 rounded hover:bg-gray-200"
-                >
-                  Logout
-                </button>
-              </div>
-            ) : (
-              <div className="flex flex-col w-full">
-                <Link
-                  to="/login"
-                  className="py-2 px-3 w-full text-left text-gray-700 rounded hover:bg-gray-200"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/register"
-                  className="py-2 px-3 w-full text-left text-gray-700 rounded hover:bg-gray-200"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Register
-                </Link>
-              </div>
-            )}
+          <div className="flex gap-4">
+            {user && user.role === "admin" && <UserRoundCog />}
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <AlignRight />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                {user && (
+                  <>
+                    <DropdownMenuLabel>
+                      {user?.name || user?.email}
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                  </>
+                )}
+                {navLinks.map((item, index) => (
+                  <DropdownMenuItem key={index}>
+                    <Link to={item.path}>{item.label}</Link>
+                  </DropdownMenuItem>
+                ))}
+                <DropdownMenuSeparator />
+                {user ? (
+                  <DropdownMenuItem>
+                    <button onClick={handleLogout}>Logout</button>
+                  </DropdownMenuItem>
+                ) : (
+                  <>
+                    <DropdownMenuItem>
+                      <Link to={"/login"}>Login</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link to={"/register"}>Register</Link>
+                    </DropdownMenuItem>
+                  </>
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </nav>

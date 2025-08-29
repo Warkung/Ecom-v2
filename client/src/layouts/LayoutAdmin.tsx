@@ -1,10 +1,11 @@
 import { Outlet } from "react-router-dom";
-import HeaderAdmin from "../components/admin/HeaderAdmin";
+import MainNav from "../components/public/MainNav";
+import { adminNavLinks } from "../utils/link";
 
 export default function LayoutAdmin() {
   return (
     <div className="">
-      <HeaderAdmin />
+      <MainNav navLinks={adminNavLinks} linkAdmin={true} />
       <main>
         <Outlet />
       </main>
