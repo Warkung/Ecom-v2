@@ -13,6 +13,8 @@ import LayoutUser from "../layouts/LayoutUser";
 import HomeUser from "../pages/userPages/HomeUser";
 import Payment from "../pages/userPages/Payment";
 import Manage from "../pages/adminPages/Manage";
+import ProtectRouteAdmin from "./ProtectRouteAdmin";
+import ProtectRouteUser from "./ProtectRouteUser";
 
 const router = createBrowserRouter([
   // Public Pages
@@ -31,7 +33,7 @@ const router = createBrowserRouter([
   // Admin Pages
   {
     path: "/admin",
-    element: <LayoutAdmin />,
+    element: <ProtectRouteAdmin element={<LayoutAdmin />} />,
     children: [
       { index: true, element: <DashBoard /> },
       { path: "/admin/category", element: <Category /> },
@@ -43,7 +45,7 @@ const router = createBrowserRouter([
   // User Pages
   {
     path: "/user",
-    element: <LayoutUser />,
+    element: <ProtectRouteUser element={<LayoutUser />} />,
     children: [
       { index: true, element: <HomeUser /> },
       { path: "/user/payment", element: <Payment /> },

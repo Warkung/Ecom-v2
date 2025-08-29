@@ -7,7 +7,7 @@ import { ThemeProvider } from "../components/darkmode/theme-provider";
 export default function Layout() {
   return (
     <div>
-      <MainNav navLinks={navLinks} linkAdmin={false} />
+      <MainNav navLinks={navLinks} hidden={false} />
       <div className="absolute top-20 right-4"></div>
       <main className="container mx-auto p-4">
         <Outlet />

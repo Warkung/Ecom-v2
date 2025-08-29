@@ -1,10 +1,16 @@
-import CreateCategoryForm from "../../components/admin/CreateCategoryForm"
+import { useState } from "react";
+import CategoryList from "../../components/admin/CategoryList";
+import CategotyCreateForm from "../../components/admin/CategotyCreateForm";
 
 function Category() {
+  const [fetchCategory, setFetchCategory] = useState(false);
+
+  const handleCategory = () => setFetchCategory(!fetchCategory);
   return (
-    <div className="container m-10">
-      <CreateCategoryForm />
+    <div className="container px-10 mt-10">
+      <CategotyCreateForm handleCategory={handleCategory} />
+      <CategoryList fetchCategory={fetchCategory} />
     </div>
-  )
+  );
 }
-export default Category
+export default Category;

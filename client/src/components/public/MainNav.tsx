@@ -13,10 +13,10 @@ import { ModeToggle } from "../darkmode/mode-toggle";
 
 export default function MainNav({
   navLinks,
-  linkAdmin,
+  hidden,
 }: {
   navLinks: { path: string; label: string }[];
-  linkAdmin: boolean;
+  hidden: boolean;
 }) {
   const { user, token } = useEcomStore((state) => state);
 
@@ -43,7 +43,7 @@ export default function MainNav({
             ))}
             {user && user.role === "admin" && (
               <Link
-                hidden={linkAdmin}
+                hidden={hidden}
                 to="/admin"
                 className="py-2 px-3  rounded  "
               >
@@ -110,6 +110,11 @@ export default function MainNav({
                     <Link to={item.path}>{item.label}</Link>
                   </DropdownMenuItem>
                 ))}
+                {user && user.role === "admin" && (
+                  <DropdownMenuItem hidden={hidden}> 
+                    <Link to={"/admin"}>Admin</Link>
+                  </DropdownMenuItem>
+                )}
                 <DropdownMenuSeparator />
                 {user ? (
                   <DropdownMenuItem>

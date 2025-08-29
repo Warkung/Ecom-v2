@@ -27,9 +27,7 @@ exports.createCategory = async (req, res) => {
 exports.getCategories = async (req, res) => {
   try {
     const categories = await prisma.category.findMany();
-    return res
-      .status(200)
-      .json({ message: "List categories success", categories });
+    return res.status(200).send(categories);
   } catch (error) {
     internalErr(res.error);
   }

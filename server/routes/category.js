@@ -10,7 +10,7 @@ const router = require("express").Router();
 router
   .route("/category")
   .post(authCheck, adminCheck, createCategory)
-  .get(authCheck, adminCheck, getCategories);
+  .get(getCategories);
 router.route("/category/:id").delete(authCheck, adminCheck, deleteCategory);
 
 module.exports = router;
