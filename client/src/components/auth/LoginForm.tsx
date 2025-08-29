@@ -1,45 +1,76 @@
 import { Eye, EyeClosed } from "lucide-react";
 import { useState } from "react";
+import useEcomStore from "../../store/ecomStore";
+import { useNavigate } from "react-router-dom";
+import type { ErrorResponse, LoginResponse } from "../../interface/auth";
+import { toast } from "react-toastify";
 
-interface LoginFormProps {
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  form: {
-    email: string;
-    password: string;
-  };
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-}
-
-export default function LoginForm({
-  handleChange,
-  handleSubmit,
-  form,
-}: LoginFormProps) {
+export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
 
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+
+  const { user, token, actionLogin } = useEcomStore((state) => state);
+
+  const navigate = useNavigate();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const res: LoginResponse = await actionLogin(form);
+      const role: string = res.data.payload.role;
+      if (role === "admin") {
+        navigate("/");
+        toast.success("Admin login successfully", {
+          position: "bottom-right",
+          autoClose: 2000,
+        });
+      } else {
+        navigate("/");
+        toast.success("Wellcome back!", {
+          position: "bottom-right",
+          autoClose: 2000,
+        });
+      }
+    } catch (error: unknown) {
+      const err = error as ErrorResponse;
+      toast.error(
+        err.response?.data?.message || "Login failed. Please try again.,",
+        {
+          position: "bottom-right",
+        }
+      );
+    }
+  };
+
   return (
     <div className="w-full max-w-md">
       <form
-        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+        className="shadow-md rounded px-8 pt-6 pb-8 mb-4 border "
         onSubmit={handleSubmit}
       >
-        <h2 className="text-2xl mb-6 text-center font-bold text-gray-800">
-          Login
-        </h2>
+        <h2 className="text-2xl mb-6 text-center font-bold ">Login</h2>
         <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="email"
-          >
+          <label className="block  text-sm font-bold mb-2" htmlFor="email">
             Email
           </label>
           <input
             onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3  leading-tight focus:outline-none focus:shadow-outline"
             id="email"
             type="email"
             placeholder="you@example.com"
@@ -49,10 +80,7 @@ export default function LoginForm({
         </div>
 
         <div className="mb-6">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="password"
-          >
+          <label className="block  text-sm font-bold mb-2" htmlFor="password">
             Password
           </label>
           <div className="relative">
@@ -63,12 +91,12 @@ export default function LoginForm({
               name="password"
               id="password"
               placeholder="••••••••••••••••"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3  mb-3 leading-tight focus:outline-none focus:shadow-outline"
             />
             <button
               type="button"
               onClick={togglePasswordVisibility}
-              className="absolute inset-y-0  bottom-2 right-0 flex items-center pr-3 text-gray-500"
+              className="absolute inset-y-0  bottom-2 right-0 flex items-center pr-3 "
             >
               {showPassword ? <Eye size={20} /> : <EyeClosed size={20} />}
             </button>
