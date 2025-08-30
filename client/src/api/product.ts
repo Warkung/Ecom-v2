@@ -2,7 +2,7 @@ import axios from "axios";
 
 const URL = import.meta.env.VITE_URL_API;
 
-export const createProduct = async (token: string|null, form: any) =>
+export const createProduct = async (token: string | null, form: any) =>
   await axios.post(`${URL}/product`, form, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -22,7 +22,7 @@ export const updateProduct = async (token: string, id: string, form: any) =>
     },
   });
 
-export const deleteProduct = async (token: string, id: string) =>
+export const deleteProduct = async (token: string | null, id: string) =>
   await axios.delete(`${URL}/product/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,

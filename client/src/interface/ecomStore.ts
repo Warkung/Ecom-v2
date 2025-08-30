@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 export interface User {
   id: string;
   name: string;
@@ -13,6 +15,11 @@ export interface Category {
 }
 
 export interface Product {
+  images: any;
+  category: any;
+  sold: ReactNode;
+  quantity: ReactNode;
+  title: ReactNode;
   id: string;
   name: string;
   price: number;
@@ -31,7 +38,7 @@ export interface EcomStoreState {
   carts: CartItem[];
   actionLogin: (form: Record<string, any>) => Promise<any>;
   actionGetCategories: () => Promise<void>;
-  actionGetProducts: (count: number) => Promise<void>;
+  actionGetProducts: (count?: number) => Promise<void>;
   actionSearchFilters: (arg: any) => Promise<void>;
   actionAddToCart: (product: Product) => Promise<void>;
   actionUpdateQuantity: (id: string, newQuantity: number) => void;

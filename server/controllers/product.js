@@ -80,7 +80,7 @@ exports.listProducts = async (req, res) => {
       take: parseInt(count),
       orderBy: { createdAt: "desc" },
       include: {
-        Category: {
+        category: {
           select: {
             name: true,
           },
@@ -88,7 +88,7 @@ exports.listProducts = async (req, res) => {
         images: true,
       },
     });
-    res.status(200).json({ message: `List products ${count} item`, products });
+    res.status(200).send(products);
   } catch (error) {
     internalErr(res, error);
   }
