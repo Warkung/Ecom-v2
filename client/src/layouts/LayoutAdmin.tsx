@@ -6,7 +6,7 @@ export default function LayoutAdmin() {
   return (
     <div className="">
       <MainNav navLinks={adminNavLinks} hidden={true} />
-      <main>
+      <main className="container mx-auto p-5 mt-8">
         <Outlet />
       </main>
     </div>

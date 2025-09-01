@@ -1,8 +1,6 @@
 import { Outlet } from "react-router-dom";
 import MainNav from "../components/public/MainNav";
 import { navLinks } from "../utils/link";
-import { ModeToggle } from "../components/darkmode/mode-toggle";
-import { ThemeProvider } from "../components/darkmode/theme-provider";
 
 export default function Layout() {
   return (

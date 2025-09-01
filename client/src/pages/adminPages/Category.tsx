@@ -7,7 +7,7 @@ function Category() {
 
   const handleCategory = () => setFetchCategory(!fetchCategory);
   return (
-    <div className="container px-10 mt-10">
+    <div >
       <CategotyCreateForm handleCategory={handleCategory} />
       <CategoryList fetchCategory={fetchCategory} />
     </div>

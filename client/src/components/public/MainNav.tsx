@@ -29,7 +29,7 @@ export default function MainNav({
     <header className="shadow-md dark:shadow-gray-800 sticky top-0 bg-white dark:bg-gray-900 z-50">
       <nav className="container ">
         {/* Desktop Nav */}
-        <div className=" hidden md:flex justify-between px-18 py-2">
+        <div className=" hidden md:flex justify-between px-10 py-2">
           {/* Desktop Logo */}
           <div className="flex">
             <div className="text-2xl font-bold  mr-16">
@@ -78,7 +78,7 @@ export default function MainNav({
         </div>
 
         {/* Mobile */}
-        <div className="md:hidden flex justify-between px-6 py-2 sm:px-10 ">
+        <div className="md:hidden flex justify-between px-6 py-2  ">
           <div>
             <Link to="/" className=" text-xl font-bold hover:">
               Logo

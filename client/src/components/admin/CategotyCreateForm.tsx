@@ -25,6 +25,7 @@ export default function CategotyCreateForm({
         position: "bottom-right",
         autoClose: 2000,
       });
+      setName("");
       handleCategory();
     } catch (error: any) {
       toast.error(error.response.data.message, {
@@ -45,7 +46,7 @@ export default function CategotyCreateForm({
         value={name}
       />
       <Button type="submit" variant="outline">
-        Create Category
+        Create
       </Button>
     </form>
   );
