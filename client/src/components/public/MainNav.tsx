@@ -29,7 +29,7 @@ export default function MainNav({
     <header className="shadow-md dark:shadow-gray-800 sticky top-0 bg-white dark:bg-gray-900 z-50">
       <nav className="container w-full ">
         {/* Desktop Nav */}
-        <div className=" hidden md:flex justify-between px-18 py-2">
+        <div className=" hidden md:flex justify-between w-screen py-2">
           {/* Desktop Logo */}
           <div className="flex">
             <div className="text-2xl font-bold  mx-16">
@@ -53,7 +53,7 @@ export default function MainNav({
           </div>
 
           {/* Desktop Auth Links */}
-          <div className="items-center space-x-4 mr-14 ">
+          <div className="items-center space-x-4 mx-16 ">
             {user ? (
               <div className="flex items-center gap-4">
                 {user && user.role === "admin" && <UserRoundCog />}
