@@ -1,4 +1,4 @@
-import { AlignRight, UserRoundCog, X } from "lucide-react";
+import { AlignRight, UserRoundCog, } from "lucide-react";
 import { Link } from "react-router-dom";
 import useEcomStore from "../../store/ecomStore";
 import {
@@ -18,7 +18,7 @@ export default function MainNav({
   navLinks: { path: string; label: string }[];
   hidden: boolean;
 }) {
-  const { user, token } = useEcomStore((state) => state);
+  const { user } = useEcomStore((state) => state);
 
   const handleLogout = () => {
     localStorage.removeItem("ecom-store");

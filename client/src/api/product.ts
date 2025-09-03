@@ -2,7 +2,7 @@ import axios from "axios";
 
 const URL = import.meta.env.VITE_URL_API;
 
-export const createProduct = async (token: string|null, form: any) =>
+export const createProduct = async (token: string | null, form: any) =>
   await axios.post(`${URL}/product`, form, {
     headers: {
       Authorization: `Bearer ${token}`,

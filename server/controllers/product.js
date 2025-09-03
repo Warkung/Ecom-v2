@@ -41,7 +41,7 @@ exports.createProduct = async (req, res) => {
       },
     });
 
-    res.status(200).json({ message: "Create product success", product });
+    res.status(200).send(product);
   } catch (error) {
     internalErr(res, error);
   }
@@ -80,7 +80,7 @@ exports.listProducts = async (req, res) => {
       take: parseInt(count),
       orderBy: { createdAt: "desc" },
       include: {
-        Category: {
+        category: {
           select: {
             name: true,
           },
@@ -88,7 +88,7 @@ exports.listProducts = async (req, res) => {
         images: true,
       },
     });
-    res.status(200).json({ message: `List products ${count} item`, products });
+    res.status(200).send(products);
   } catch (error) {
     internalErr(res, error);
   }
@@ -102,12 +102,12 @@ exports.getProductById = async (req, res) => {
         id: parseInt(id),
       },
       include: {
-        Category: true,
+        category: true,
         images: true,
       },
     });
     if (!product) return res.status(404).json({ message: "Product not found" });
-    res.status(200).json({ message: `Get product success`, product });
+    res.status(200).send(product);
   } catch (error) {
     internalErr(res, error);
   }

@@ -15,6 +15,7 @@ import Payment from "../pages/userPages/Payment";
 import Manage from "../pages/adminPages/Manage";
 import ProtectRouteAdmin from "./ProtectRouteAdmin";
 import ProtectRouteUser from "./ProtectRouteUser";
+import ProductEdit from "../pages/adminPages/ProductEdit";
 
 const router = createBrowserRouter([
   // Public Pages
@@ -38,6 +39,7 @@ const router = createBrowserRouter([
       { index: true, element: <DashBoard /> },
       { path: "/admin/category", element: <Category /> },
       { path: "/admin/product", element: <Product /> },
+      { path: "/admin/product/:id", element: <ProductEdit /> },
       { path: "/admin/manage", element: <Manage /> },
     ],
   },

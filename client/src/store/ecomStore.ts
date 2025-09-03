@@ -33,7 +33,7 @@ const ecomStore = (
       console.log(error);
     }
   },
-  actionGetProducts: async (count: number) => {
+  actionGetProducts: async (count) => {
     try {
       const { data } = await listProducts(count);
       set({ products: data });

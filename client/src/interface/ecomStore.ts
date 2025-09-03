@@ -13,6 +13,11 @@ export interface Category {
 }
 
 export interface Product {
+  title: string;
+  images: any;
+  category: any;
+  sold: number;
+  quantity: number;
   id: string;
   name: string;
   price: number;
@@ -31,7 +36,7 @@ export interface EcomStoreState {
   carts: CartItem[];
   actionLogin: (form: Record<string, any>) => Promise<any>;
   actionGetCategories: () => Promise<void>;
-  actionGetProducts: (count: number) => Promise<void>;
+  actionGetProducts: (count: number | undefined) => Promise<void>;
   actionSearchFilters: (arg: any) => Promise<void>;
   actionAddToCart: (product: Product) => Promise<void>;
   actionUpdateQuantity: (id: string, newQuantity: number) => void;
