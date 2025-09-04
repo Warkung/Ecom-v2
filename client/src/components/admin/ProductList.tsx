@@ -27,10 +27,10 @@ export default function ProductList({
   }, [updateProduct]);
 
   return (
-    <div className="mt-10">
-      <table className="min-w-full divide-y divide-gray-200 ">
+    <div className="mt-10 ">
+      <table className="min-w-full divide-y ">
         <thead>
-          <tr className="bg-gray-200 ">
+          <tr className=" ">
             <th className="px-4 py-3 text-center leading-4 font-medium  uppercase tracking-wider">
               Product name
             </th>
@@ -54,11 +54,14 @@ export default function ProductList({
             </th>
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+        <tbody className=" divide-y ">
           {products.map((product) => {
             return (
-              <tr key={product.id} className="hover:bg-gray-100 text-sm">
-                <td className="max-w-[150px] pl-4 capitalize ">
+              <tr
+                key={product.id}
+                className="dark:hover:bg-gray-900 hover:bg-gray-100 text-sm"
+              >
+                <td className="max-w-[150px] pl-4 capitalize font-semibold">
                   {product.title}
                 </td>
                 <td className="py-1 flex items-center justify-center">
@@ -69,7 +72,7 @@ export default function ProductList({
                       alt={product.title}
                     />
                   ) : (
-                    <div className="w-16 h-16 shadow-md rounded-md text-xs bg-gray-200 flex items-center justify-center">
+                    <div className="w-16 h-16 shadow-md rounded-md text-xs flex items-center justify-center">
                       No Image
                     </div>
                   )}

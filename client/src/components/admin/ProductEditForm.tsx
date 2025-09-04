@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import useEcomStore from "../../store/ecomStore";
 import { toast } from "react-toastify";
-import {  readProduct, updateProduct } from "../../api/product";
-// import UploadFiles from "./UploadFiles";
+import { readProduct, updateProduct } from "../../api/product";
 import { useParams, useNavigate } from "react-router-dom";
 
 const initState = {
