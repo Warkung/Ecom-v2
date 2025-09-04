@@ -46,14 +46,10 @@ export default function LoginForm() {
           autoClose: 2000,
         });
       }
-    } catch (error: unknown) {
-      const err = error as ErrorResponse;
-      toast.error(
-        err.response?.data?.message || "Login failed. Please try again.,",
-        {
-          position: "bottom-right",
-        }
-      );
+    } catch (error: any) {
+      toast.error(error.message, {
+        position: "bottom-right",
+      });
     }
   };
 

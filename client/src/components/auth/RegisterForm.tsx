@@ -40,25 +40,8 @@ export default function RegisterForm() {
         autoClose: 2000,
       });
       navigate("/login");
-    } catch (error) {
-      let errorMessage = "Registration failed";
-      if (
-        // AI Fix interface error
-        typeof error === "object" &&
-        error !== null &&
-        "response" in error &&
-        typeof (error as any).response === "object" &&
-        (error as any).response !== null &&
-        "data" in (error as any).response &&
-        typeof (error as any).response.data === "object" &&
-        (error as any).response.data !== null &&
-        "message" in (error as any).response.data
-      ) {
-        errorMessage = (error as any).response.data.message;
-      }
-      toast.error(errorMessage, {
-        position: "bottom-right",
-      });
+    } catch (error: any) {
+      toast.error(error.message);
     }
   };
   return (
