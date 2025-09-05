@@ -15,7 +15,7 @@ function Product() {
       <div className=" relative">
         <button
           onClick={() => setCreateFormVisible(!isCreateFormVisible)}
-          className={`bg-gray-100 hover:bg-gray-50 border-2 absolute w-20 rounded-2xl h-9 font-semibold right-0 dark:bg-white shadow-xl ${
+          className={`bg-gray-100 hover:bg-gray-50 border-2 absolute w-20 rounded-2xl h-9 font-semibold left-0 dark:bg-white shadow-xl ${
             isCreateFormVisible ? "text-red-700" : "text-green-700"
           }`}
         >
@@ -29,7 +29,7 @@ function Product() {
       >
         <ProductCreateForm handleCreateFormVisible={handleCreateFormVisible} />
       </div>
-      <div className="max-w-4xl mx-auto">
+      <div className="mt-20">
         <ProductList updateProduct={isCreateFormVisible}/>
       </div>
     </div>
