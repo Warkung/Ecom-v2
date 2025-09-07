@@ -148,7 +148,7 @@ exports.updateProduct = async (req, res) => {
       },
     });
 
-    res.status(200).json({ message: "Update success", product });
+    res.status(200).send(product);
   } catch (error) {
     internalErr(res, error);
   }
@@ -182,7 +182,7 @@ exports.deleteProduct = async (req, res) => {
         id: parseInt(id),
       },
     });
-    res.status(200).json({ message: "Delete success" });
+    res.status(200).send(product);
   } catch (error) {
     internalErr(res, error);
   }

@@ -11,11 +11,11 @@ function Product() {
   };
 
   return (
-    <div className=" w-full">
-      <div className=" relative">
+    <div className=" w-full relative">
+      <div className=" ">
         <button
           onClick={() => setCreateFormVisible(!isCreateFormVisible)}
-          className={`bg-gray-100 hover:bg-gray-50 border-2 absolute w-20 rounded-2xl h-9 font-semibold left-0 dark:bg-white shadow-xl ${
+          className={`bg-gray-100 hover:bg-gray-50 border-2  w-20 rounded-2xl h-9 font-semibold left-0 dark:bg-white shadow-xl ${
             isCreateFormVisible ? "text-red-700" : "text-green-700"
           }`}
         >
@@ -29,8 +29,8 @@ function Product() {
       >
         <ProductCreateForm handleCreateFormVisible={handleCreateFormVisible} />
       </div>
-      <div className="mt-20">
-        <ProductList updateProduct={isCreateFormVisible}/>
+      <div className="mt-20 ">
+        <ProductList updateProduct={isCreateFormVisible} />
       </div>
     </div>
   );

@@ -3,6 +3,7 @@ import useEcomStore from "../../store/ecomStore";
 import { toast } from "react-toastify";
 import { readProduct, updateProduct } from "../../api/product";
 import { useParams, useNavigate } from "react-router-dom";
+import UploadImage from "./UploadImage";
 
 const initState = {
   title: "",
@@ -20,6 +21,7 @@ export default function ProductEditForm() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [form, setForm] = useState(initState);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -38,9 +40,12 @@ export default function ProductEditForm() {
     try {
       if (token && id) {
         const res = await updateProduct(token, id, form);
-        toast.success(res.data.title + " updated successfully");
+        toast.success(res.data.title + " updated successfully", {
+          position: "bottom-right",
+          autoClose: 2000,
+        });
       }
-      navigate("/admin/products");
+      navigate("/admin/product");
     } catch (error: any) {
       toast.error(error.response.data);
     }
@@ -156,12 +161,19 @@ export default function ProductEditForm() {
           </select>
         </div>
 
+        <UploadImage
+          form={form}
+          setForm={setForm}
+          setIsLoading={setIsLoading}
+        />
+
         <div>
           <button
+            disabled={isLoading}
             type="submit"
             className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-            Create Product
+            {isLoading ? "loading..." : "Create"}
           </button>
         </div>
       </form>
