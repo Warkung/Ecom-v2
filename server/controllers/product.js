@@ -66,7 +66,6 @@ exports.removeImages = async (req, res) => {
     await cloudinary.uploader.destroy(public_id, () =>
       res.send("Delete success")
     );
-
     res.send("Delete success");
   } catch (error) {
     internalErr(res, error);

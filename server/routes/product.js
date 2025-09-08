@@ -25,6 +25,6 @@ router.route("/productby").post(listProductBy);
 router.route("/search/filters").post(searchWithFilters);
 
 router.route("/images/upload").post(authCheck, adminCheck, upLoadImages);
-router.route("/images/remove").delete(authCheck, adminCheck, removeImages);
+router.route("/images/remove").post(authCheck, adminCheck, removeImages);
 
 module.exports = router;

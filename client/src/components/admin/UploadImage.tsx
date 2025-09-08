@@ -1,17 +1,9 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { uploadFiles } from "../../api/uploadFile";
+import { removeImage, uploadFiles } from "../../api/uploadFile";
 import useEcomStore from "../../store/ecomStore";
 import Resize from "react-image-file-resizer";
-
-interface UploadImageProps {
-  form: {
-    images: any[];
-    [key: string]: any;
-  };
-  setForm: React.Dispatch<React.SetStateAction<any>>;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import type { UploadImageProps } from "../../interface/admin";
 
 export default function UploadImage({
   form,
@@ -58,9 +50,65 @@ export default function UploadImage({
     }
   };
 
+  const handleRemoveImage = async (public_id: string) => {
+    try {
+      setIsLoading(true);
+      if (token) await removeImage(token, public_id);
+      let fillterImages = form.images.filter(
+        (image) => image.public_id !== public_id
+      );
+      setForm({
+        ...form,
+        images: fillterImages,
+      });
+      setIsLoading(false)
+    } catch (error: any) {
+      setIsLoading(false);
+      toast.error(error.message);
+    }
+  };
+
   return (
     <div>
-      <input onChange={handleOnchange} type="file" name="images" multiple />
+      <div className="flex gap-1 flex-wrap">
+        {form.images.map((image, index) => (
+          <div
+            key={index}
+            className=" relative mb-2 rounded-xl shadow-sm  w-20 h-20 "
+          >
+            <img
+              src={image.url}
+              className="w-20 h-20 rounded-xl  "
+              alt="image"
+            />
+            <div
+              onClick={() => handleRemoveImage(image.public_id)}
+              className="text-white hover:scale-105 hover:cursor-pointer  font-bold text-xs bg-black absolute top-1 right-1 h-5 w-5 text-center rounded flex items-center justify-center"
+            >
+              X
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div>
+        <label htmlFor="images">
+          <div className="my-2">
+            <span className="bg-green-400 text-green-900 px-4 py-3 rounded-2xl hover:bg-green-500 hover:cursor-pointer">
+              Upload Images
+            </span>
+          </div>
+        </label>
+        <input
+          type="file"
+          id="images"
+          className=""
+          multiple
+          onChange={handleOnchange}
+          hidden
+          accept="image/*"
+        />
+      </div>
     </div>
   );
 }

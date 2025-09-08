@@ -1,4 +1,4 @@
-import { AlignRight, UserRoundCog, } from "lucide-react";
+import { AlignRight, UserRoundCog } from "lucide-react";
 import { Link } from "react-router-dom";
 import useEcomStore from "../../store/ecomStore";
 import {
@@ -21,8 +21,10 @@ export default function MainNav({
   const { user } = useEcomStore((state) => state);
 
   const handleLogout = () => {
-    localStorage.removeItem("ecom-store");
-    window.location.href = "/";
+    if (window.confirm("Are you sure you want to logout?")) {
+      localStorage.removeItem("ecom-store");
+      window.location.href = "/";
+    }
   };
 
   return (
@@ -111,7 +113,7 @@ export default function MainNav({
                   </DropdownMenuItem>
                 ))}
                 {user && user.role === "admin" && (
-                  <DropdownMenuItem hidden={hidden}> 
+                  <DropdownMenuItem hidden={hidden}>
                     <Link to={"/admin"}>Admin</Link>
                   </DropdownMenuItem>
                 )}
