@@ -13,6 +13,7 @@ export interface Category {
 }
 
 export interface Product {
+  description: ReactNode;
   title: string;
   images: any;
   category: any;

@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage from "../pages/publicPages/HomePage";
-import ShopPage from "../pages/publicPages/ShopPage";
 import CartPage from "../pages/publicPages/CartPage";
+import ShopPage from "../pages/publicPages/ShopPage";
 import Register from "../pages/authPages/Register";
 import Login from "../pages/authPages/Login";
 import Layout from "../layouts/Layout";
@@ -16,6 +16,7 @@ import Manage from "../pages/adminPages/Manage";
 import ProtectRouteAdmin from "./ProtectRouteAdmin";
 import ProtectRouteUser from "./ProtectRouteUser";
 import ProductEdit from "../pages/adminPages/ProductEdit";
+
 
 const router = createBrowserRouter([
   // Public Pages
