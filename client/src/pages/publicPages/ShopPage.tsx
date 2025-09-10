@@ -29,7 +29,7 @@ export default function ShopPage() {
         } md:block fixed md:static top-0 left-0 h-full z-10 md:h-auto md:z-auto`}
         style={{ maxWidth: "400px" }}
       >
-        {/* <SearchCard /> */}
+        <SearchCard />
       </div>
 
       {/* product list */}
