@@ -12,7 +12,7 @@ function ListCart() {
 
   const handleSaveCart = async () => {
     try {
-      await createUserCart(token, { cart });
+      token && (await createUserCart(token, { cart }));
       toast.success("Cart saved successfully!", {
         position: "bottom-right",
         autoClose: 2000,
@@ -66,7 +66,7 @@ function ListCart() {
                       {cart.images.length !== 0 ? (
                         <img
                           src={cart.images[0].url}
-                          className="w-full h-full rounded-md object-contain"
+                          className="w-full h-full rounded-md object-contain "
                           alt={cart.title}
                         />
                       ) : (
@@ -75,7 +75,7 @@ function ListCart() {
                     </div>
                     {/* text */}
                     <div className="ml-2 sm:ml-4">
-                      <p className="font-bold break-words">{cart.title}</p>
+                      <p className="font-bold break-words text-gray-700">{cart.title}</p>
                       <p className="text-gray-500 text-sm">
                         ${cart.price.toLocaleString()} x {cart.count}
                       </p>
