@@ -8,7 +8,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../../components/ui/dropdown-menu";
+} from "../ui/dropdown-menu";
 import { ModeToggle } from "../darkmode/mode-toggle";
 
 export default function MainNav({

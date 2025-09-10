@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import MainNav from "../components/public/MainNav";
+import MainNav from "../components/navbar/MainNav";
 import { adminNavLinks } from "../utils/link";
 
 export default function LayoutAdmin() {
