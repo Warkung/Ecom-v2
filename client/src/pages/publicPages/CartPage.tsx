@@ -1,6 +1,10 @@
-function CartPage() {
+import ListCart from "../../components/public/shop/ListCart";
+
+
+export default function CartPage() {
   return (
-    <div>CartPage</div>
-  )
+    <div>
+      <ListCart />
+    </div>
+  );
 }
-export default CartPage

@@ -21,7 +21,7 @@ function CartCard() {
           <button
             disabled={carts.length === 0}
             onClick={actionClearCart}
-            className="flex items-center gap-2 bg-gray-100  p-2 rounded-full text-red-500 hover:bg-red-100 hover:text-red-700 transition-colors duration-300 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-gray-400"
+            className="flex items-center gap-2 bg-gray-100 p-2 rounded-full text-red-600 hover:text-red-500 transition-colors duration-300 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-gray-400"
           >
             <BrushCleaning size={24} />
             <span className="font-bold">Clear</span>
@@ -51,7 +51,7 @@ function CartCard() {
                 </div>
                 {/* text */}
                 <div>
-                  <p className="font-bold text-nowrap overflow-hidden w-28">
+                  <p className="font-bold text-gray-600 text-nowrap overflow-hidden w-28">
                     {cart.title}
                   </p>
                   {/* <p className="text-gray-500 text-sm text-nowrap overflow-hidden w-28">
@@ -79,7 +79,7 @@ function CartCard() {
                 >
                   <Minus size={18} />
                 </button>
-                <span className="w-xl text-center text-[16px] font-semibold">
+                <span className="w-xl text-gray-600 text-center text-[16px] font-semibold">
                   {cart.count}
                 </span>
                 <button

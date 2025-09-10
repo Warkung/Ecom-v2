@@ -1,7 +1,7 @@
 import { Eye, EyeClosed } from "lucide-react";
 import { useState } from "react";
 import useEcomStore from "../../store/ecomStore";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import type { ErrorResponse, LoginResponse } from "../../interface/auth";
 import { toast } from "react-toastify";
 
@@ -34,13 +34,13 @@ export default function LoginForm() {
       const res: LoginResponse = await actionLogin(form);
       const role: string = res.data.payload.role;
       if (role === "admin") {
-        navigate("/");
+        navigate(-1);
         toast.success("Admin login successfully", {
           position: "bottom-right",
           autoClose: 2000,
         });
       } else {
-        navigate("/");
+        navigate(-1);
         toast.success("Wellcome back!", {
           position: "bottom-right",
           autoClose: 2000,
@@ -98,7 +98,17 @@ export default function LoginForm() {
             </button>
           </div>
         </div>
-
+        <div className="mb-4 flex flex-col gap-2 m-auto text-center">
+          <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+            Don’t have an account yet?{" "}
+            <Link
+              to="/register"
+              className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+            >
+              Sign up
+            </Link>
+          </p>
+        </div>
         <div className="flex items-center justify-between">
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"

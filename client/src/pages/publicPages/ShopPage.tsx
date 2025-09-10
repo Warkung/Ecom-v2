@@ -24,7 +24,7 @@ export default function ShopPage() {
 
       {/* search Bar - hidden on small screens, toggled by button */}
       <div
-        className={`order-1 md:order-none md:w-1/4 w-full border p-4 ${
+        className={`order-1 md:order-none md:w-1/4 w-full  p-4 ${
           showSearch ? "block" : "hidden"
         } md:block fixed md:static top-0 left-0 h-full z-10 md:h-auto md:z-auto`}
         style={{ maxWidth: "400px" }}
@@ -33,7 +33,7 @@ export default function ShopPage() {
       </div>
 
       {/* product list */}
-      <div className="order-2 md:order-none md:w-2/4 w-full bg p-2 overflow-y-auto">
+      <div className="order-2 md:order-none md:w-2/4 w-full p-2 overflow-y-auto ">
         <h1 className="text-2xl font-bold mb-4">Products</h1>
         <div className="flex flex-wrap justify-center gap-4">
           {products.map((product, index) => (
@@ -43,7 +43,7 @@ export default function ShopPage() {
       </div>
 
       {/* cart */}
-      <div className="order-3 md:order-none md:w-1/4 w-full bg-gray-200 p-4 overflow-y-auto">
+      <div className="order-3 md:order-none md:w-1/4 w-full p-4 overflow-y-auto ">
         <CartCard />
       </div>
     </div>
