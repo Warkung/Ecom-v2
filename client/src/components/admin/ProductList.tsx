@@ -26,6 +26,7 @@ export default function ProductList({
     actionGetProducts(undefined);
   }, [updateProduct]);
 
+
   return (
     <div className="mt-10 ">
       <table className="min-w-full divide-y ">
@@ -55,6 +56,7 @@ export default function ProductList({
           </tr>
         </thead>
         <tbody className=" divide-y ">
+          
           {products.map((product) => {
             return (
               <tr

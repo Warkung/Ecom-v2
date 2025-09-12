@@ -92,7 +92,7 @@ function ListCart() {
           {/* Right */}
           <div className=" bg-white px-6 py-4 rounded shadow-md max-h-60 overflow-y-auto">
             <div className="flex items-center justify-between mb-4 ">
-              <h1 className="text-2xl font-bold ">Total</h1>
+              <h1 className="text-2xl font-bold text-gray-800 ">Total</h1>
               <Link to={"/shop"}>
                 <button className="text-sm font-bold shadow bg-gray-500 text-white px-4 py-1 rounded-md hover:cursor-pointer hover:bg-gray-400 transition-all duration-300 ease-in-out">
                   <Reply size={16} className="" />
@@ -100,11 +100,11 @@ function ListCart() {
               </Link>
             </div>
 
-            <div className="flex justify-between mb-2">
+            <div className="flex justify-between mb-2 text-gray-500">
               <span>Items</span>
               <span>{cart.length}</span>
             </div>
-            <div className="flex justify-between mb-4">
+            <div className="flex justify-between mb-4 text-gray-500">
               <span>User</span>
               <span>{user ? user.email : "Guest"}</span>
             </div>

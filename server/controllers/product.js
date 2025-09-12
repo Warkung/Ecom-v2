@@ -206,84 +206,42 @@ exports.listProductBy = async (req, res) => {
   }
 };
 
-
 // SERCH Function
-
-const handleQuery = async (req, res, query) => {
-  try {
-    const products = await prisma.product.findMany({
-      where: {
-        title: {
-          contains: query,
-        },
-      },
-      include: {
-        category: true,
-        images: true,
-      },
-    });
-    res.send(products);
-  } catch (error) {
-    internalErr(res, error);
-  }
-};
-
-const handleCategory = async (req, res, categoryId) => {
-  try {
-    const products = await prisma.product.findMany({
-      where: {
-        categoryId: {
-          in: categoryId.map((id) => {
-            return parseInt(id);
-          }),
-        },
-      },
-      include: {
-        category: true,
-        images: true,
-      },
-    });
-    res.send(products);
-  } catch (error) {
-    internalErr(res, error);
-  }
-};
-
-const handlePrice = async (req, res, priceRange) => {
-  try {
-    const products = await prisma.product.findMany({
-      where: {
-        price: {
-          gte: priceRange[0],
-          lte: priceRange[1],
-        },
-      },
-      include: {
-        category: true,
-        images: true,
-      },
-    });
-    res.send(products);
-  } catch (error) {
-    internalErr(res, error);
-  }
-};
 
 exports.searchWithFilters = async (req, res) => {
   try {
     const { query, category, price } = req.body;
+
+    const where = {};
+
     if (query) {
-      console.log(`query: ${query}`);
-      await handleQuery(req, res, query);
+      where.title = {
+        contains: query,
+      };
     }
-    if (category) {
-      console.log(`category: ${category}`);
-      await handleCategory(req, res, category);
+
+    if (category && category.length > 0) {
+      where.categoryId = {
+        in: category.map((id) => parseInt(id)),
+      };
     }
+
     if (price) {
-      console.log(`price: ${price}`);
-      await handlePrice(req, res, price);
+      where.price = {
+        gte: price[0],
+        lte: price[1],
+      };
     }
+
+    const products = await prisma.product.findMany({
+      where,
+      include: {
+        category: true,
+        images: true,
+      },
+    });
+
+    res.send(products);
   } catch (error) {
     internalErr(res, error);
   }
