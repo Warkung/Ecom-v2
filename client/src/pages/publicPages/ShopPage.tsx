@@ -3,6 +3,7 @@ import useEcomStore from "../../store/ecomStore";
 import ProductCard from "../../components/public/shop/ProductCard";
 import CartCard from "../../components/public/shop/CartCard";
 import SearchCard from "../../components/public/shop/SearchCard";
+import SearchCardv2 from "../../components/public/shop/SearchCardv2";
 
 export default function ShopPage() {
   const { products, actionGetProducts } = useEcomStore((state) => state);
@@ -29,7 +30,7 @@ export default function ShopPage() {
         } md:block fixed md:static top-0 left-0 h-full z-10 md:h-auto md:z-auto`}
         style={{ maxWidth: "400px" }}
       >
-        <SearchCard />
+        <SearchCardv2 />
       </div>
 
       {/* product list */}

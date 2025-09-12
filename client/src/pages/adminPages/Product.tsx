@@ -12,7 +12,7 @@ function Product() {
 
   return (
     <div className=" w-full relative">
-      <div className=" ">
+      <div className=" fixed">
         <button
           onClick={() => setCreateFormVisible(!isCreateFormVisible)}
           className={`bg-gray-100 hover:bg-gray-50 border-2  w-20 rounded-2xl h-9 font-semibold left-0 dark:bg-white shadow-xl ${

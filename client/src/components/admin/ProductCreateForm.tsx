@@ -141,7 +141,7 @@ export default function ProductCreateForm({
             required
             className="border shadow-md capitalize mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
           >
-            <option className="text-gray-500 font-bold" disabled>
+            <option value={""} className="text-gray-500 font-bold">
               Select a category
             </option>
             {categories.map((category) => (
