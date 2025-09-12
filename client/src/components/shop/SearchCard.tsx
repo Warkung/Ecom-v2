@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
-import useEcomStore from "../../../store/ecomStore";
+import useEcomStore from "../../store/ecomStore";
 
 export default function SearchCard() {
   const {

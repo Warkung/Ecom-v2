@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import useEcomStore from "../../store/ecomStore";
-import ProductCard from "../../components/public/shop/ProductCard";
-import CartCard from "../../components/public/shop/CartCard";
-import SearchCard from "../../components/public/shop/SearchCard";
-import SearchCardv2 from "../../components/public/shop/SearchCardv2";
+import SearchCardv2 from "../../components/shop/SearchCardv2";
+import ProductCard from "../../components/shop/ProductCard";
+import CartCard from "../../components/shop/CartCard";
 
 export default function ShopPage() {
   const { products, actionGetProducts } = useEcomStore((state) => state);

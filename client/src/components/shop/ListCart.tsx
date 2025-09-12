@@ -2,17 +2,17 @@ import { ListCheck, Reply } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import useEcomStore from "../../../store/ecomStore";
-import { createUserCart } from "../../../api/user";
+import useEcomStore from "../../store/ecomStore";
+import { createUserCart } from "../../api/user";
 
 function ListCart() {
   const { getTotalPrice, user, token } = useEcomStore((state) => state);
-  const cart = useEcomStore((state) => state.carts);
+  const { carts } = useEcomStore((state) => state);
   const navigate = useNavigate();
 
   const handleSaveCart = async () => {
     try {
-      token && (await createUserCart(token, { cart }));
+      token && (await createUserCart(token, { carts }));
       toast.success("Cart saved successfully!", {
         position: "bottom-right",
         autoClose: 2000,
@@ -36,7 +36,7 @@ function ListCart() {
       });
     }
   };
-
+  
   return (
     <div className="max-w-6xl mx-auto mt-6">
       {/* Header */}
@@ -44,7 +44,7 @@ function ListCart() {
         <div className="flex gap-2 items-center mb-4 text-gray-800">
           <ListCheck size={24} />
           <p className="text-lg sm:text-xl font-bold text-gray-800">
-            Product list, {cart.length} items
+            Product list, {carts.length} items
           </p>
         </div>
         {/*Cart Body*/}
@@ -52,7 +52,7 @@ function ListCart() {
           {/* Left */}
           <div className="lg:col-span-2">
             {/* Card */}
-            {cart.map((cart) => (
+            {carts.map((cart) => (
               <div
                 key={cart.id}
                 className="bg-white p-2 rounded-md shadow-md mb-2"
@@ -75,7 +75,9 @@ function ListCart() {
                     </div>
                     {/* text */}
                     <div className="ml-2 sm:ml-4">
-                      <p className="font-bold break-words text-gray-700">{cart.title}</p>
+                      <p className="font-bold break-words text-gray-700">
+                        {cart.title}
+                      </p>
                       <p className="text-gray-500 text-sm">
                         ${cart.price.toLocaleString()} x {cart.count}
                       </p>
@@ -94,15 +96,15 @@ function ListCart() {
             <div className="flex items-center justify-between mb-4 ">
               <h1 className="text-2xl font-bold text-gray-800 ">Total</h1>
               <Link to={"/shop"}>
-                <button className="text-sm font-bold shadow bg-gray-500 text-white px-4 py-1 rounded-md hover:cursor-pointer hover:bg-gray-400 transition-all duration-300 ease-in-out">
-                  <Reply size={16} className="" />
+                <button className="text-sm font-bold shadow bg-red-700 text-white px-4 py-1 rounded-md hover:cursor-pointer hover:bg-gray-400 transition-all duration-300 ease-in-out">
+                  <Reply size={16}  />
                 </button>
               </Link>
             </div>
 
             <div className="flex justify-between mb-2 text-gray-500">
               <span>Items</span>
-              <span>{cart.length}</span>
+              <span>{carts.length}</span>
             </div>
             <div className="flex justify-between mb-4 text-gray-500">
               <span>User</span>
@@ -110,7 +112,7 @@ function ListCart() {
             </div>
             {/* Checkout Button */}
             {user ? (
-              cart.length > 0 ? (
+              carts.length > 0 ? (
                 <button
                   onClick={handleSaveCart}
                   className="text-xl font-bold shadow w-full mt-4 bg-green-800 text-white px-4 py-3 rounded-md hover:cursor-pointer hover:bg-green-700 transition-all duration-300 ease-in-out"

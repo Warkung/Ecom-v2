@@ -1,9 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
-import useEcomStore from "../../../store/ecomStore";
 import _ from "lodash";
+import useEcomStore from "../../store/ecomStore";
 
+const MIN_PRICE = 0;
 const MAX_PRICE = 50000;
 
 export default function SearchCardv2() {
@@ -89,7 +90,7 @@ export default function SearchCardv2() {
   const handleResetFilters = () => {
     setText("");
     setCategorySelect([]);
-    setPrice([0, MAX_PRICE]);
+    setPrice([MIN_PRICE, MAX_PRICE]);
     // The useEffect will trigger a refetch with empty filters
   };
 
@@ -140,7 +141,8 @@ export default function SearchCardv2() {
             onChange={(value) => Array.isArray(value) && setDisplayPrice(value)}
             onAfterChange={handlePriceAfterChange}
             range
-            min={0}
+            min={MIN_PRICE}
+            step={100}
             max={MAX_PRICE}
             value={displayPrice}
             allowCross={false}

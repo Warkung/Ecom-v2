@@ -1,6 +1,6 @@
 import { BrushCleaning, Minus, Plus, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
-import useEcomStore from "../../../store/ecomStore";
+import useEcomStore from "../../store/ecomStore";
 
 function CartCard() {
   const {
@@ -54,9 +54,9 @@ function CartCard() {
                   <p className="font-bold text-gray-600 text-nowrap overflow-hidden w-28">
                     {cart.title}
                   </p>
-                  {/* <p className="text-gray-500 text-sm text-nowrap overflow-hidden w-28">
+                  <p className="text-gray-500 text-sm text-nowrap overflow-hidden w-28">
                     {cart.description}
-                  </p> */}
+                  </p>
                 </div>
               </div>
               {/*Row1 Right */}

@@ -1,7 +1,7 @@
 import {  ShoppingCart } from "lucide-react";
-import useEcomStore from "../../../store/ecomStore";
 
-import type { Product } from "../../../interface/ecomStore";
+import useEcomStore from "../../store/ecomStore";
+import type { Product } from "../../interface/ecomStore";
 
 export default function ProductCard({ product }: { product: Product }) {
   const { actionAddToCart } = useEcomStore((state) => state);

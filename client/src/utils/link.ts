@@ -1,15 +1,15 @@
 export const navLinks = [
   {
     path: "/",
-    label: "Home",
+    label: "home",
   },
   {
     path: "/shop",
-    label: "Shop",
+    label: "shop",
   },
   {
     path: "/cart",
-    label: "Cart",
+    label: "cart",
   },
 ];
 

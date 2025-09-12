@@ -1,4 +1,4 @@
-import ListCart from "../../components/public/shop/ListCart";
+import ListCart from "../../components/shop/ListCart";
 
 
 export default function CartPage() {
