@@ -18,7 +18,7 @@ export default function MainNav({
   navLinks: { path: string; label: string }[];
   hidden: boolean;
 }) {
-  const { user } = useEcomStore((state) => state);
+  const { user, carts } = useEcomStore((state) => state);
 
   const handleLogout = () => {
     if (window.confirm("Are you sure you want to logout?")) {
@@ -33,16 +33,35 @@ export default function MainNav({
         {/* Desktop Nav */}
         <div className=" hidden md:flex justify-between w-screen py-2">
           {/* Desktop Logo */}
-          <div className="flex">
+          <div className="flex ">
             <div className="text-2xl font-bold  mx-16">
               <Link to="/">Logo</Link>
             </div>
 
-            {navLinks.map((item, index) => (
-              <Link key={index} to={item.path} className="py-2 px-3  rounded  ">
-                {item.label}
-              </Link>
-            ))}
+            {navLinks.map((item, index) =>
+              item.label !== "cart" ? (
+                <Link
+                  key={index}
+                  to={item.path}
+                  className="py-2 px-5  rounded capitalize "
+                >
+                  {item.label}
+                </Link>
+              ) : (
+                carts.length > 0 && (
+                  <Link
+                    key={index}
+                    to={item.path}
+                    className="py-2 px-5  rounded relative capitalize"
+                  >
+                    {item.label}
+                    <span className="text-[12px] rounded-full px-2 bg-red-500 text-gray-100 absolute top-0 right-0">
+                      {carts.length}
+                    </span>
+                  </Link>
+                )
+              )
+            )}
             {user && user.role === "admin" && (
               <Link
                 hidden={hidden}
