@@ -24,8 +24,8 @@ export default function ShopPage() {
 
       {/* search Bar - hidden on small screens, toggled by button */}
       <div
-        className={`order-1 md:order-none md:w-1/4 w-full  p-4 ${
-          showSearch ? "block" : "hidden"
+        className={` order-1 md:order-none md:w-1/4 w-full p-4 ${
+          showSearch ? "block bg-white text-black shadow-2xl mt-10" : "hidden"
         } md:block fixed md:static top-0 left-0 h-full z-10 md:h-auto md:z-auto`}
         style={{ maxWidth: "400px" }}
       >

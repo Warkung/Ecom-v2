@@ -1,7 +1,10 @@
+import { type ReactNode } from "react";
+
 export interface User {
   id: string;
   name: string;
   email: string;
+  address?: string;
   role: "admin" | "user";
   // Add other user fields as needed
 }

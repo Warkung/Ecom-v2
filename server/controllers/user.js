@@ -22,6 +22,28 @@ exports.getAllUsers = async (req, res) => {
   }
 };
 
+exports.getUserById = async (req, res) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: parseInt(req.user.id),
+      },
+      select: {
+        id: true,
+        email: true,
+        role: true,
+        enabled: true,
+        address: true,
+        createdAt: true,
+      },
+    });
+    if (!user) return res.status(404).json({ message: "User not found" });
+    res.status(200).send(user);
+  } catch (error) {
+    internalErr(res, error);
+  }
+};
+
 exports.changeUserStatus = async (req, res) => {
   try {
     const { id, enabled } = req.body;
@@ -125,9 +147,7 @@ exports.getCart = async (req, res) => {
       },
     });
     if (!cart) return res.status(404).send("Cart not found");
-    res
-      .status(200)
-      .json({ products: cart.products, cartTotal: cart.cartTotal });
+    res.status(200).send({ cart });
   } catch (error) {
     internalErr(res, error);
   }
@@ -171,7 +191,8 @@ exports.saveAddress = async (req, res) => {
         address: address,
       },
     });
-    res.status(200).json({ message: "Update address success" });
+
+    res.status(200).send("Update address success");
   } catch (error) {
     internalErr(res, error);
   }

@@ -23,12 +23,15 @@ function LoadingToRedirect() {
   }
 
   return (
-    <div className="flex h-[70vh] flex-col items-center justify-center gap-4 ">    
-      <div className="text-center text-lg font-medium">
-        Redirecting to login in {count} second{count !== 1 ? "s" : ""}...
+    <div className="flex h-[70vh] flex-col items-center justify-center gap-4 ">
+      <div className="flex flex-col items-center justify-center gap-2">
+        <p className="text-gray-500 text-xl  ">Access denied.</p>
+        <p className="text-gray-500 text-xl  "> Redirecting to login page in</p>
+        <p className="text-gray-500 text-2xl font-semibold">
+          {count} second{count !== 1 ? "s" : ""}...
+        </p>
       </div>
     </div>
-    
   );
 }
 export default LoadingToRedirect;

@@ -16,6 +16,7 @@ import Manage from "../pages/adminPages/Manage";
 import ProtectRouteAdmin from "./ProtectRouteAdmin";
 import ProtectRouteUser from "./ProtectRouteUser";
 import ProductEdit from "../pages/adminPages/ProductEdit";
+import Checkout from "../pages/userPages/Checkout";
 
 
 const router = createBrowserRouter([
@@ -29,6 +30,7 @@ const router = createBrowserRouter([
       { path: "/cart", element: <CartPage /> },
       { path: "/register", element: <Register /> },
       { path: "/login", element: <Login /> },
+      { path: "/checkout", element: <Checkout /> },
     ],
   },
 

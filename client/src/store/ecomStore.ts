@@ -5,7 +5,6 @@ import { litsCategory } from "../api/category";
 import { listProducts, searchFilters } from "../api/product";
 import _ from "lodash";
 import type { EcomStoreState, Product } from "../interface/ecomStore";
-
 const URL = import.meta.env.VITE_URL_API;
 
 const ecomStore = (

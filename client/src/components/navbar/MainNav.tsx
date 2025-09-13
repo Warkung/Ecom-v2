@@ -48,18 +48,18 @@ export default function MainNav({
                   {item.label}
                 </Link>
               ) : (
-                carts.length > 0 && (
-                  <Link
-                    key={index}
-                    to={item.path}
-                    className="py-2 px-5  rounded relative capitalize"
-                  >
-                    {item.label}
+                <Link
+                  key={index}
+                  to={item.path}
+                  className="py-2 px-5  rounded relative capitalize"
+                >
+                  {item.label}
+                  {carts.length > 0 && (
                     <span className="text-[12px] rounded-full px-2 bg-red-500 text-gray-100 absolute top-0 right-0">
                       {carts.length}
                     </span>
-                  </Link>
-                )
+                  )}
+                </Link>
               )
             )}
             {user && user.role === "admin" && (
@@ -109,10 +109,12 @@ export default function MainNav({
           {/* Mobile Hamburger Button */}
           <div className="flex gap-4">
             {user && user.role === "admin" && (
-              <div className="  px-2 rounded-2xl ">
+              <div className=" mt-1.5 px-2 rounded-2xl ">
                 <UserRoundCog />
               </div>
             )}
+
+            <ModeToggle />
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <AlignRight />
@@ -128,7 +130,20 @@ export default function MainNav({
                 )}
                 {navLinks.map((item, index) => (
                   <DropdownMenuItem key={index}>
-                    <Link to={item.path}>{item.label}</Link>
+                    <Link to={item.path}>
+                      {item.label !== "cart" ? (
+                        item.label
+                      ) : (
+                        <>
+                          {item.label}
+                          {carts.length > 0 && (
+                            <p className=" absolute top-2 left-10 bg-red-600 px-1.5 rounded-full">
+                              {carts.length}
+                            </p>
+                          )}
+                        </>
+                      )}
+                    </Link>
                   </DropdownMenuItem>
                 ))}
                 {user && user.role === "admin" && (

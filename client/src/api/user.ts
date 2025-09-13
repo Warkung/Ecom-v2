@@ -1,6 +1,13 @@
 import axios from "axios";
 const URL = import.meta.env.VITE_URL_API;
 
+export const getUserData = async (token: string) =>
+  await axios.get(`${URL}/user`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
 export const createUserCart = async (token: string, form: any) =>
   await axios.post(`${URL}/user/cart`, form, {
     headers: {

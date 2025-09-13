@@ -6,13 +6,12 @@ import useEcomStore from "../../store/ecomStore";
 import { createUserCart } from "../../api/user";
 
 function ListCart() {
-  const { getTotalPrice, user, token } = useEcomStore((state) => state);
-  const { carts } = useEcomStore((state) => state);
+  const { getTotalPrice, user, token, carts } = useEcomStore((state) => state);
   const navigate = useNavigate();
 
   const handleSaveCart = async () => {
     try {
-      token && (await createUserCart(token, { carts }));
+      token && (await createUserCart(token, { cart: carts }));
       toast.success("Cart saved successfully!", {
         position: "bottom-right",
         autoClose: 2000,
@@ -36,7 +35,7 @@ function ListCart() {
       });
     }
   };
-  
+
   return (
     <div className="max-w-6xl mx-auto mt-6">
       {/* Header */}
@@ -97,7 +96,7 @@ function ListCart() {
               <h1 className="text-2xl font-bold text-gray-800 ">Total</h1>
               <Link to={"/shop"}>
                 <button className="text-sm font-bold shadow bg-red-700 text-white px-4 py-1 rounded-md hover:cursor-pointer hover:bg-gray-400 transition-all duration-300 ease-in-out">
-                  <Reply size={16}  />
+                  <Reply size={16} />
                 </button>
               </Link>
             </div>

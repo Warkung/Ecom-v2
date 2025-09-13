@@ -2,12 +2,13 @@ import { BrushCleaning, Minus, Plus, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import useEcomStore from "../../store/ecomStore";
 
+
 function CartCard() {
   const {
     carts,
     actionUpdateQuantity,
     actionRemoveFromCart,
-    actionClearCart,
+    actionClearCart,  
     getTotalPrice,
   } = useEcomStore((state) => state);
 
@@ -116,7 +117,7 @@ function CartCard() {
             </button>
           ) : (
             <button className="text-sm font-bold shadow w-full mt-4 bg-green-700 text-white px-4 py-2 rounded-md hover:cursor-pointer hover:bg-green-500 transition-all duration-300 ease-in-out">
-              Proceed with payment
+              Go to Cart
             </button>
           )}
         </Link>
