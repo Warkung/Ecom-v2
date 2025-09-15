@@ -185,6 +185,12 @@ npx prisma generate
 /* Enjoy */
 
 
+.env_client
+
+VITE_URL_API = http://localhost:8080/api
+
+.env_server
+
 PORT=8080
 
 # This was inserted by `prisma init`:
@@ -198,4 +204,8 @@ PORT=8080
 # server with the `prisma dev` CLI command, when not choosing any non-default ports or settings. The API key, unlike the 
 # one found in a remote Prisma Postgres URL, does not contain any sensitive information.
 
-DATABASE_URL="mysql://root:0079@localhost:3306/ecom-v2"
+DATABASE_URL="mysql://root:[password]@localhost:3306/ecom-v2"
+
+CLOUDINARY_CLOUD_NAME=......
+CLOUDINARY_API_KEY=.........
+CLOUDINARY_API_SECRET=......

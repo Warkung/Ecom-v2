@@ -12,10 +12,6 @@ function ListCart() {
   const handleSaveCart = async () => {
     try {
       token && (await createUserCart(token, { cart: carts }));
-      toast.success("Cart saved successfully!", {
-        position: "bottom-right",
-        autoClose: 2000,
-      });
       // Optionally, you can redirect the user or perform other actions
       navigate("/checkout");
     } catch (error: any) {
