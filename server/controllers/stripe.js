@@ -1,9 +1,7 @@
 const internalErr = require("../utils/InternalError");
 const prisma = require("../config/prisma");
 
-const stripe = require("stripe")(
-  "sk_test_51RureYFx4enKsVHP3yaxYjS4Tm92D36ZpiZ432pp12PrY6YNlcDDKKV6WbCmvJe2jf9UuvBWvpi5PkwoyIvo60F800NcUxboRM"
-);
+const stripe = require("stripe")(process.env.STRIPE_KEY);
 
 exports.payment = async (req, res) => {
   try {
