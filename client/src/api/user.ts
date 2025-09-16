@@ -32,3 +32,20 @@ export const saveAddress = async (token: string, address: any) =>
       },
     }
   );
+
+export const saveOrder = async (
+  token: string,
+  payload: {
+    paymentIntent: {
+      amount: number;
+      currency: string;
+      id: string;
+      status: string;
+    };
+  }
+) =>
+  await axios.post(`${URL}/user/order`, payload, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });

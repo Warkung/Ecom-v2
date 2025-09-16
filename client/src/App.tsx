@@ -1,8 +1,6 @@
 import AppRoutes from "./routes/AppRoutes";
 import { ToastContainer } from "react-toastify";
 import { ThemeProvider } from "./components/darkmode/theme-provider";
-import MainNav from "./components/navbar/MainNav";
-import { navLinks } from "./utils/link";
 
 function App() {
   return (
