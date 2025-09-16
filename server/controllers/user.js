@@ -200,6 +200,8 @@ exports.saveAddress = async (req, res) => {
 
 exports.saveOrder = async (req, res) => {
   try {
+    const { id, currency, amount, status } = req.body.paymentIntent;
+
     const userCart = await prisma.cart.findFirst({
       where: {
         orderedById: parseInt(req.user.id),
@@ -213,20 +215,22 @@ exports.saveOrder = async (req, res) => {
     if (!userCart || userCart.products.length === 0) {
       return res.status(404).send("Cart not found");
     }
+
     //Check quantity
-    for (let item of userCart.products) {
-      const product = await prisma.product.findUnique({
-        where: { id: item.productId },
-        select: { title: true, quantity: true },
-      });
-      if (product.quantity === 0)
-        return res.status(400).send(`${product.title} is out of stock`);
-      if (!product || product.quantity < item.count) {
-        return res
-          .status(400)
-          .send(` There are ${product.quantity} ${product.title} left.`);
-      }
-    }
+    // for (let item of userCart.products) {
+    //   const product = await prisma.product.findUnique({
+    //     where: { id: item.productId },
+    //     select: { title: true, quantity: true },
+    //   });
+    //   if (product.quantity === 0)
+    //     return res.status(400).send(`${product.title} is out of stock`);
+    //   if (!product || product.quantity < item.count) {
+    //     return res
+    //       .status(400)
+    //       .send(` There are ${product.quantity} ${product.title} left.`);
+    //   }
+    // }
+
     // create new order
     const order = await prisma.order.create({
       data: {
@@ -243,6 +247,10 @@ exports.saveOrder = async (req, res) => {
           },
         },
         cartTotal: userCart.cartTotal,
+        stripePaymentId: id,
+        currency: currency,
+        amount: Number(amount) / 100,
+        status: status,
       },
     });
 

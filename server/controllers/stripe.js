@@ -7,11 +7,15 @@ const stripe = require("stripe")(
 
 exports.payment = async (req, res) => {
   try {
-    // const { items } = req.body;
+    const cart = await prisma.cart.findFirst({
+      where: {
+        orderedById: req.user.id,
+      },
+    });
 
     // Create a PaymentIntent with the order amount and currency
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: 2000,
+      amount: cart.cartTotal * 100,
       currency: "thb",
       // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
       automatic_payment_methods: {

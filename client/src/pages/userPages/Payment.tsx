@@ -3,6 +3,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import useEcomStore from "../../store/ecomStore";
 import { paymentIntent } from "../../api/stripe";
+import CheckoutForm from "../../components/stripe/CheckoutForm";
 
 const stripePromise = loadStripe(
   "pk_test_51RureYFx4enKsVHP9L26frof30yzQgvdl8l8GqdwcyF3HrtOZhUuyLjvK2aalV98GYrVJFMWMKCHPowchJMKRBOh008bmr6QB7"
@@ -21,18 +22,29 @@ function Payment() {
     } catch (error) {
       console.log(error);
     }
-  };  
+  };
 
   const appearance = {
-    theme: 'stripe',
+    theme: "stripe" as "stripe",
   };
   // Enable the skeleton loader UI for optimal loading.
-  const loader = 'auto';
+  const loader = "auto";
 
   useEffect(() => {
     fetchPayment();
   }, []);
 
-  return <div>Payment</div>;
+  return (
+    <div>
+      {clientSecret && (
+        <Elements
+          options={{ clientSecret, appearance, loader }}
+          stripe={stripePromise}
+        >
+          <CheckoutForm />
+        </Elements>
+      )}
+    </div>
+  );
 }
 export default Payment;
