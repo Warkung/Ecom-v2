@@ -25,7 +25,7 @@ function ListCart() {
         navigate("/login");
         return;
       }
-      toast.error(error.response?.data || "Failed to save cart", {
+      toast.warn(error.response?.data || "Failed to save cart", {
         position: "bottom-right",
         autoClose: 2000,
       });

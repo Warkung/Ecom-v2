@@ -17,7 +17,7 @@ import ProtectRouteAdmin from "./ProtectRouteAdmin";
 import ProtectRouteUser from "./ProtectRouteUser";
 import ProductEdit from "../pages/adminPages/ProductEdit";
 import Checkout from "../pages/userPages/Checkout";
-
+import History from "../pages/userPages/History";
 
 const router = createBrowserRouter([
   // Public Pages
@@ -26,11 +26,11 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { index: true, element: <HomePage /> },
-      { path: "/shop", element: <ShopPage /> },
-      { path: "/cart", element: <CartPage /> },
-      { path: "/register", element: <Register /> },
-      { path: "/login", element: <Login /> },
-      { path: "/checkout", element: <Checkout /> },
+      { path: "shop", element: <ShopPage /> },
+      { path: "cart", element: <CartPage /> },
+      { path: "register", element: <Register /> },
+      { path: "login", element: <Login /> },
+      { path: "checkout", element: <Checkout /> },
     ],
   },
 
@@ -40,10 +40,10 @@ const router = createBrowserRouter([
     element: <ProtectRouteAdmin element={<LayoutAdmin />} />,
     children: [
       { index: true, element: <DashBoard /> },
-      { path: "/admin/category", element: <Category /> },
-      { path: "/admin/product", element: <Product /> },
-      { path: "/admin/product/:id", element: <ProductEdit /> },
-      { path: "/admin/manage", element: <Manage /> },
+      { path: "category", element: <Category /> },
+      { path: "product", element: <Product /> },
+      { path: "product/:id", element: <ProductEdit /> },
+      { path: "manage", element: <Manage /> },
     ],
   },
 
@@ -53,7 +53,8 @@ const router = createBrowserRouter([
     element: <ProtectRouteUser element={<LayoutUser />} />,
     children: [
       { index: true, element: <HomeUser /> },
-      { path: "/user/payment", element: <Payment /> },
+      { path: "payment", element: <Payment /> },
+      { path: "history", element: <History /> },
     ],
   },
 ]);

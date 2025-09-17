@@ -6,3 +6,12 @@ export interface AuthResponse {
   // role: string;
   [key: string]: any;
 }
+
+export interface PayloadType {
+  paymentIntent: {
+    amount: number;
+    currency: string;
+    id: string;
+    status: string;
+  };
+}

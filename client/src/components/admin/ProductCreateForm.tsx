@@ -58,7 +58,7 @@ export default function ProductCreateForm({
         position: "bottom-right",
       });
     }
-  };
+  };  
 
   return (
     <div className="p-8 max-w-xl m-auto border shadow-lg rounded-lg my-10">

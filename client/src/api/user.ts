@@ -1,4 +1,5 @@
 import axios from "axios";
+import type { PayloadType } from "../interface/api";
 const URL = import.meta.env.VITE_URL_API;
 
 export const getUserData = async (token: string) =>
@@ -22,7 +23,7 @@ export const getUserCart = async (token: string) =>
     },
   });
 
-export const saveAddress = async (token: string, address: any) =>
+export const saveAddress = async (token: string, address: string) =>
   await axios.post(
     `${URL}/user/address`,
     { address },
@@ -33,18 +34,15 @@ export const saveAddress = async (token: string, address: any) =>
     }
   );
 
-export const saveOrder = async (
-  token: string,
-  payload: {
-    paymentIntent: {
-      amount: number;
-      currency: string;
-      id: string;
-      status: string;
-    };
-  }
-) =>
+export const saveOrder = async (token: string, payload: PayloadType) =>
   await axios.post(`${URL}/user/order`, payload, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+export const getOrder = async (token: string) =>
+  await axios.get(`${URL}/user/order`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

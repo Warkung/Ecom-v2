@@ -7,6 +7,7 @@ import {
 import { LoaderCircle } from "lucide-react";
 import { saveOrder } from "../../api/user";
 import useEcomStore from "../../store/ecomStore";
+import { useNavigate } from "react-router-dom";
 
 export default function CheckoutForm() {
   const { token } = useEcomStore((state) => state);
@@ -15,6 +16,8 @@ export default function CheckoutForm() {
 
   const [message, setMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -43,6 +46,7 @@ export default function CheckoutForm() {
       }
     }
     setIsLoading(false);
+    navigate("/user/history");
   };
 
   const paymentElementOptions = {

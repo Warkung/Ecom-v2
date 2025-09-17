@@ -11,6 +11,10 @@ export const navLinks = [
     path: "/cart",
     label: "cart",
   },
+  {
+    path: "/user/history",
+    label: "history",
+  },
 ];
 
 export const adminNavLinks = [

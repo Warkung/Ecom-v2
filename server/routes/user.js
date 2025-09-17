@@ -24,6 +24,6 @@ router
   .get(authCheck, getCart)
   .delete(authCheck, emptyCart);
 router.route("/user/address").post(authCheck, saveAddress);
-router.route("/user/order").post(authCheck,saveOrder).get(getOrder);
+router.route("/user/order").post(authCheck, saveOrder).get(authCheck, getOrder);
 
 module.exports = router;

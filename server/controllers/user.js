@@ -87,6 +87,21 @@ exports.addToCart = async (req, res) => {
       },
     });
 
+    //Check quantity
+    for (let item of cart) {
+      const product = await prisma.product.findUnique({
+        where: { id: item.id },
+        select: { title: true, quantity: true },
+      });
+      if (product.quantity === 0)
+        return res.status(400).send(`${product.title} is out of stock`);
+      if (!product || product.quantity < item.count) {
+        return res
+          .status(400)
+          .send(` There are ${product.quantity} ${product.title} left.`);
+      }
+    }
+
     // delete old product on cart
     await prisma.productOnCart.deleteMany({
       where: {
@@ -116,7 +131,7 @@ exports.addToCart = async (req, res) => {
       0
     );
 
-    // สร้าง cart
+    // สร้าง new cart
     let newCart = await prisma.cart.create({
       data: {
         products: {
@@ -216,21 +231,6 @@ exports.saveOrder = async (req, res) => {
       return res.status(404).send("Cart not found");
     }
 
-    //Check quantity
-    // for (let item of userCart.products) {
-    //   const product = await prisma.product.findUnique({
-    //     where: { id: item.productId },
-    //     select: { title: true, quantity: true },
-    //   });
-    //   if (product.quantity === 0)
-    //     return res.status(400).send(`${product.title} is out of stock`);
-    //   if (!product || product.quantity < item.count) {
-    //     return res
-    //       .status(400)
-    //       .send(` There are ${product.quantity} ${product.title} left.`);
-    //   }
-    // }
-
     // create new order
     const order = await prisma.order.create({
       data: {
@@ -292,6 +292,9 @@ exports.getOrder = async (req, res) => {
             product: true,
           },
         },
+      },
+      orderBy: {
+        createdAt: "desc",
       },
     });
     if (!orders) res.status(404).send("Order not found");
