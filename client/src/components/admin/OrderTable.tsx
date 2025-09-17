@@ -1,0 +1,177 @@
+import { useEffect, useState, useCallback } from "react";
+import { getOrder } from "../../api/admin";
+import useEcomStore from "../../store/ecomStore";
+import { toast } from "react-toastify";
+import type { OrderAdminType } from "../../interface/admin";
+
+const orderStatusOptions = [
+  "Not Process",
+  "Processing",
+  "Dispatched",
+  "Cancelled",
+  "Completed",
+];
+
+export default function OrderTable() {
+  const { token } = useEcomStore((state) => state);
+  const [orders, setOrders] = useState<OrderAdminType>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const fetchGetOrders = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      if (token) {
+        const res = await getOrder(token);
+        if (res && res.data) {
+          setOrders(res.data);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to fetch orders.");
+    } finally {
+      setIsLoading(false);
+    }
+  }, [token]);
+
+  //   const handleStatusChange = async (orderId: number, newStatus: string) => {
+  //     try {
+  //       if (token) {
+  //         // NOTE: You'll need to implement `updateOrderStatus` in your `api/admin.ts`
+  //         await updateOrderStatus(token, orderId, newStatus);
+  //         toast.success("Order status updated successfully");
+  //         fetchGetOrders(); // Refetch orders to show the update
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //       toast.error("Failed to update order status.");
+  //     }
+  //   };
+
+  useEffect(() => {
+    fetchGetOrders();
+  }, [fetchGetOrders]);
+
+  if (isLoading) {
+    return <div className="mt-10 text-center">Loading orders...</div>;
+  }
+
+  if (orders.length === 0) {
+    return <div className="mt-10 text-center">No orders found.</div>;
+  }
+
+  return (
+    <div className="mt-10">
+      <h1 className="text-2xl font-bold mb-6">Manage Orders</h1>
+      <div className="overflow-x-auto shadow-md sm:rounded-lg">
+        <table className="bg-gray-100 min-w-full divide-y divide-gray-300 dark:divide-gray-700 shadow-xl">
+          <thead className="bg-gray-300 dark:bg-gray-800">
+            <tr>
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-900 dark:text-gray-300 uppercase tracking-wider"
+              >
+                Order ID
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-900 dark:text-gray-300 uppercase tracking-wider"
+              >
+                Payment Status
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-900 dark:text-gray-300 uppercase tracking-wider"
+              >
+                Ordered By
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-900 dark:text-gray-300 uppercase tracking-wider"
+              >
+                Products
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-center text-xs font-medium text-gray-900 dark:text-gray-300 uppercase tracking-wider"
+              >
+                Amount
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-center text-xs font-medium text-gray-900 dark:text-gray-300 uppercase tracking-wider"
+              >
+                Order Status
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-center text-xs font-medium text-gray-900 dark:text-gray-300 uppercase tracking-wider"
+              >
+                Ordered Date
+              </th>
+            </tr>
+          </thead>
+          <tbody className=" dark:bg-gray-900 divide-y divide-gray-300 dark:divide-gray-700">
+            {orders.map((order) => (
+              <tr
+                key={order.id}
+                className="hover:bg-gray-200 dark:hover:bg-gray-800"
+              >
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                  #{order.id}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm">
+                  <span
+                    className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                      order.status === "succeeded"
+                        ? "bg-green-300 text-green-900 dark:bg-green-900 dark:text-green-200"
+                        : "bg-yellow-300 text-yellow-900 dark:bg-yellow-900 dark:text-yellow-200"
+                    }`}
+                  >
+                    {order.status}
+                  </span>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-300">
+                  {order.orderedBy?.name || order.orderedBy?.email}
+                </td>
+                <td className="px-6 py-4 text-sm text-gray-800 dark:text-gray-300">
+                  <ul className="list-disc list-inside">
+                    {order.products.map((item, index) => (
+                      <li key={index} className="whitespace-nowrap">
+                        {item.product.title} x {item.count}
+                      </li>
+                    ))}
+                  </ul>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-800 dark:text-gray-300">
+                  {order.amount.toLocaleString("en-US", {
+                    style: "currency",
+                    currency: order.currency.toUpperCase(),
+                  })}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-300">
+                  <select
+                    value={order.orderStatus}
+                    // onChange={(e) =>
+                    //   handleStatusChange(order.id, e.target.value)
+                    // }
+                    className="block w-full pl-3 pr-10 py-2 text-base bg-gray-200 border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                  >
+                    {orderStatusOptions.map((status) => (
+                      <option key={status} value={status}>
+                        {status}
+                      </option>
+                    ))}
+                  </select>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-300 text-center">
+                  {new Date(order.createdAt).toLocaleDateString()}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}

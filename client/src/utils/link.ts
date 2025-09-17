@@ -23,15 +23,19 @@ export const adminNavLinks = [
     label: "Dashboard",
   },
   {
-    path: "/admin/product",
+    path: "product",
     label: "Product",
   },
   {
-    path: "/admin/category",
+    path: "category",
     label: "Category",
   },
   {
-    path: "/admin/manage",
+    path: "manage",
     label: "Manage",
+  },
+  {
+    path: "orders",
+    label: "orders",
   },
 ];

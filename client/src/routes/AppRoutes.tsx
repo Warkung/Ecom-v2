@@ -18,6 +18,7 @@ import ProtectRouteUser from "./ProtectRouteUser";
 import ProductEdit from "../pages/adminPages/ProductEdit";
 import Checkout from "../pages/userPages/Checkout";
 import History from "../pages/userPages/History";
+import OrderManage from "../pages/adminPages/OrderManage";
 
 const router = createBrowserRouter([
   // Public Pages
@@ -44,6 +45,7 @@ const router = createBrowserRouter([
       { path: "product", element: <Product /> },
       { path: "product/:id", element: <ProductEdit /> },
       { path: "manage", element: <Manage /> },
+      { path: "orders", element: <OrderManage /> },
     ],
   },
 
