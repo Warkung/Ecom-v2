@@ -1,3 +1,10 @@
+import {
+  LayoutDashboard,
+  ShoppingBasket,
+  Tags,
+  ShoppingCart,
+} from "lucide-react";
+
 export const navLinks = [
   {
     path: "/",
@@ -21,21 +28,21 @@ export const adminNavLinks = [
   {
     path: "/admin",
     label: "Dashboard",
+    icon: LayoutDashboard,
   },
   {
-    path: "product",
-    label: "Product",
+    path: "/admin/product",
+    label: "Products",
+    icon: ShoppingBasket,
   },
   {
-    path: "category",
-    label: "Category",
+    path: "/admin/category",
+    label: "Categories",
+    icon: Tags,
   },
   {
-    path: "manage",
-    label: "Manage",
-  },
-  {
-    path: "orders",
-    label: "orders",
+    path: "/admin/orders",
+    label: "Orders",
+    icon: ShoppingCart,
   },
 ];

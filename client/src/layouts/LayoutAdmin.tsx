@@ -1,12 +1,11 @@
 import { Outlet } from "react-router-dom";
-import MainNav from "../components/navbar/MainNav";
-import { adminNavLinks } from "../utils/link";
+import SidebarAdmin from "../components/navbar/SidebarAdmin";
 
 export default function LayoutAdmin() {
   return (
-    <div className="">
-      <MainNav navLinks={adminNavLinks} hidden={true} />
-      <main className="container mx-auto px-6 mt-6">
+    <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
+      <SidebarAdmin />
+      <main className="flex-1 overflow-y-auto p-6">
         <Outlet />
       </main>
     </div>
