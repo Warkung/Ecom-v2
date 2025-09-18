@@ -61,7 +61,7 @@ export default function OrderTable() {
   }
 
   return (
-    <div className="mt-10">
+    <div className="">
       <h1 className="text-2xl font-bold mb-6">Manage Orders</h1>
       <div className="overflow-x-auto shadow-md sm:rounded-lg">
         <table className="bg-gray-100 min-w-full divide-y divide-gray-300 dark:divide-gray-700 shadow-xl">
@@ -81,31 +81,31 @@ export default function OrderTable() {
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-900 dark:text-gray-300 uppercase tracking-wider"
+                className="hidden px-6 py-3 text-left text-xs font-medium text-gray-900 dark:text-gray-300 uppercase tracking-wider md:table-cell"
               >
                 Ordered By
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-900 dark:text-gray-300 uppercase tracking-wider"
+                className="hidden px-6 py-3 text-left text-xs font-medium text-gray-900 dark:text-gray-300 uppercase tracking-wider lg:table-cell"
               >
                 Products
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-center text-xs font-medium text-gray-900 dark:text-gray-300 uppercase tracking-wider"
+                className="px-6 py-3 text-right text-xs font-medium text-gray-900 dark:text-gray-300 uppercase tracking-wider"
               >
                 Amount
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-center text-xs font-medium text-gray-900 dark:text-gray-300 uppercase tracking-wider"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-900 dark:text-gray-300 uppercase tracking-wider"
               >
                 Order Status
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-center text-xs font-medium text-gray-900 dark:text-gray-300 uppercase tracking-wider"
+                className="hidden px-6 py-3 text-center text-xs font-medium text-gray-900 dark:text-gray-300 uppercase tracking-wider md:table-cell"
               >
                 Ordered Date
               </th>
@@ -117,7 +117,7 @@ export default function OrderTable() {
                 key={order.id}
                 className="hover:bg-gray-200 dark:hover:bg-gray-800"
               >
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-300">
                   #{order.id}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm">
@@ -131,14 +131,20 @@ export default function OrderTable() {
                     {order.status}
                   </span>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-300">
+                <td className="hidden px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-300 md:table-cell">
                   {order.orderedBy?.name || order.orderedBy?.email}
                 </td>
-                <td className="px-6 py-4 text-sm text-gray-800 dark:text-gray-300">
+                <td className="hidden px-6 py-4 text-sm text-gray-800 dark:text-gray-300 lg:table-cell">
                   <ul className="list-disc list-inside">
                     {order.products.map((item, index) => (
-                      <li key={index} className="whitespace-nowrap">
-                        {item.product.title} x {item.count}
+                      <li key={index} className="flex items-center">
+                        <span
+                          className="max-w-72 truncate"
+                          title={item.product.title}
+                        >
+                          {item.product.title}
+                        </span>
+                        <span className="ml-1">x {item.count}</span>
                       </li>
                     ))}
                   </ul>
@@ -164,7 +170,7 @@ export default function OrderTable() {
                     ))}
                   </select>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-300 text-center">
+                <td className="hidden px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-300 text-center md:table-cell">
                   {new Date(order.createdAt).toLocaleDateString()}
                 </td>
               </tr>
