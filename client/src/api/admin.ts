@@ -8,3 +8,13 @@ export const getOrder = async (token: string) =>
       Authorization: `Bearer ${token}`,
     },
   });
+
+export const changeOrderStatus = async (
+  token: string,
+  form: { orderId: number; orderStatus: string }
+) =>
+  await axios.patch(`${URL}/admin/order-status`, form, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });

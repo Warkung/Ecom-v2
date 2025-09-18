@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { getOrder } from "../../api/admin";
+import { changeOrderStatus, getOrder } from "../../api/admin";
 import useEcomStore from "../../store/ecomStore";
 import { toast } from "react-toastify";
 import type { OrderAdminType } from "../../interface/admin";
@@ -34,23 +34,23 @@ export default function OrderTable() {
     }
   }, [token]);
 
-  //   const handleStatusChange = async (orderId: number, newStatus: string) => {
-  //     try {
-  //       if (token) {
-  //         // NOTE: You'll need to implement `updateOrderStatus` in your `api/admin.ts`
-  //         await updateOrderStatus(token, orderId, newStatus);
-  //         toast.success("Order status updated successfully");
-  //         fetchGetOrders(); // Refetch orders to show the update
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //       toast.error("Failed to update order status.");
-  //     }
-  //   };
+  const handleStatusChange = async (orderId: number, orderStatus: string) => {
+    try {
+      if (token) {
+        const payload = { orderId, orderStatus };
+        await changeOrderStatus(token, payload);
+        toast.success("Order status updated successfully");
+        fetchGetOrders(); // Refetch orders to show the update
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to update order status.");
+    }
+  };
 
   useEffect(() => {
     fetchGetOrders();
-  }, [fetchGetOrders]);
+  }, []);
 
   if (isLoading) {
     return <div className="mt-10 text-center">Loading orders...</div>;
@@ -152,9 +152,9 @@ export default function OrderTable() {
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-300">
                   <select
                     value={order.orderStatus}
-                    // onChange={(e) =>
-                    //   handleStatusChange(order.id, e.target.value)
-                    // }
+                    onChange={(e) =>
+                      handleStatusChange(order.id, e.target.value)
+                    }
                     className="block w-full pl-3 pr-10 py-2 text-base bg-gray-200 border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                   >
                     {orderStatusOptions.map((status) => (

@@ -7,6 +7,7 @@ import {
   FaReceipt,
   FaTruck,
   FaChevronDown,
+  FaTimesCircle,
 } from "react-icons/fa";
 import { getOrder } from "../../api/user";
 import useEcomStore from "../../store/ecomStore";
@@ -95,12 +96,16 @@ export default function HistoryCard() {
               <span
                 className={`inline-flex items-center px-3 py-1 text-xs font-bold rounded-full ${
                   order.orderStatus === "Completed"
-                    ? "bg-green-100 text-green-800"
-                    : "bg-yellow-100 text-yellow-800"
+                    ? "bg-green-200 text-green-700"
+                    : order.orderStatus === "Cancelled"
+                    ? "bg-red-200 text-red-700"
+                    : "bg-yellow-200 text-yellow-700"
                 }`}
               >
                 {order.orderStatus === "Completed" ? (
                   <FaCheckCircle className="mr-1.5" />
+                ) : order.orderStatus === "Cancelled" ? (
+                  <FaTimesCircle className="mr-1.5" />
                 ) : (
                   <FaTruck className="mr-1.5" />
                 )}
