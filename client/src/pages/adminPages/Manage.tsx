@@ -1,5 +1,9 @@
+import UsersTable from "../../components/admin/UsersTable";
+
 export default function Manage() {
   return (
-    <div>Manage</div>
+    <div>
+      <UsersTable />
+    </div>
   )
 }

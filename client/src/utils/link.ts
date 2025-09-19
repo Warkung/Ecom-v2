@@ -3,6 +3,7 @@ import {
   ShoppingBasket,
   Tags,
   ShoppingCart,
+  Users,
 } from "lucide-react";
 
 export const navLinks = [
@@ -44,5 +45,10 @@ export const adminNavLinks = [
     path: "/admin/orders",
     label: "Orders",
     icon: ShoppingCart,
+  },
+  {
+    path: "/admin/manage",
+    label: "manage",
+    icon: Users,
   },
 ];

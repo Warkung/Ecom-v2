@@ -17,7 +17,7 @@ export default function LoginForm() {
     password: "",
   });
 
-  const { user, token, actionLogin } = useEcomStore((state) => state);
+  const { actionLogin } = useEcomStore((state) => state);
 
   const navigate = useNavigate();
 
@@ -47,7 +47,7 @@ export default function LoginForm() {
         });
       }
     } catch (error: any) {
-      toast.error(error.message, {
+      toast.error(error.response.data || error.message, {
         position: "bottom-right",
       });
     }

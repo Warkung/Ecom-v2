@@ -1,27 +1,6 @@
 const internalErr = require("../utils/InternalError");
 const prisma = require("../config/prisma");
 
-exports.getAllUsers = async (req, res) => {
-  try {
-    const users = await prisma.user.findMany({
-      select: {
-        id: true,
-        email: true,
-        role: true,
-        enabled: true,
-        address: true,
-        createdAt: true,
-      },
-      orderBy: {
-        createdAt: "asc",
-      },
-    });
-    res.status(200).json({ message: "Get users success", users });
-  } catch (error) {
-    internalErr(res, error);
-  }
-};
-
 exports.getUserById = async (req, res) => {
   try {
     const user = await prisma.user.findUnique({
@@ -39,40 +18,6 @@ exports.getUserById = async (req, res) => {
     });
     if (!user) return res.status(404).json({ message: "User not found" });
     res.status(200).send(user);
-  } catch (error) {
-    internalErr(res, error);
-  }
-};
-
-exports.changeUserStatus = async (req, res) => {
-  try {
-    const { id, enabled } = req.body;
-    await prisma.user.update({
-      where: {
-        id: parseInt(id),
-      },
-      data: {
-        enabled: Boolean(enabled),
-      },
-    });
-    res.status(200).json({ message: `Update status`, enabled });
-  } catch (error) {
-    internalErr(res, error);
-  }
-};
-
-exports.changeUserRole = async (req, res) => {
-  try {
-    const { id, role } = req.body;
-    await prisma.user.update({
-      where: {
-        id: parseInt(id),
-      },
-      data: {
-        role: role,
-      },
-    });
-    res.status(200).json({ message: `Update role to ${role}` });
   } catch (error) {
     internalErr(res, error);
   }

@@ -14,10 +14,7 @@ const { adminCheck, authCheck } = require("../middlewares/authCheck");
 
 const router = require("express").Router();
 
-router.route("/users").get(getAllUsers);
 router.route("/user").get(authCheck, getUserById);
-router.route("/change-status").post(changeUserStatus);
-router.route("/change-role").post(changeUserRole);
 router
   .route("/user/cart")
   .post(authCheck, addToCart)

@@ -71,35 +71,35 @@ export default function OrderTable() {
       <h1 className="text-2xl font-bold mb-6">Manage Orders</h1>
       <div className="overflow-x-auto shadow-md sm:rounded-lg">
         <table className="bg-gray-100 min-w-full divide-y divide-gray-300 dark:divide-gray-700 shadow-xl">
-          <thead className="bg-gray-300 dark:bg-gray-800">
-            <tr>
+          <thead className="bg-gray-400 dark:bg-gray-800">
+            <tr className="text-gray-900 dark:text-gray-300">
               <th
                 scope="col"
-                className="px-6 py-3 text-center text-xs font-medium text-gray-900 dark:text-gray-300 uppercase tracking-wider"
+                className="px-6 py-3 text-center text-xs font-medium  uppercase tracking-wider"
               >
                 Order ID
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-center text-xs font-medium text-gray-900 dark:text-gray-300 uppercase tracking-wider"
+                className="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider"
               >
                 Payment Status
               </th>
               <th
                 scope="col"
-                className=" px-6 py-3 text-center text-xs font-medium text-gray-900 dark:text-gray-300 uppercase tracking-wider "
+                className=" px-6 py-3 text-center text-xs font-medium  uppercase tracking-wider "
               >
                 Ordered By
               </th>
               <th
                 scope="col"
-                className=" px-6 py-3 text-center text-xs font-medium text-gray-900 dark:text-gray-300 uppercase tracking-wider "
+                className=" px-6 py-3 text-center text-xs font-medium  uppercase tracking-wider "
               >
                 Products
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-right text-xs font-medium text-gray-900 dark:text-gray-300 uppercase tracking-wider"
+                className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider"
               >
                 Amount
               </th>
@@ -167,7 +167,7 @@ export default function OrderTable() {
                     onChange={(e) =>
                       handleStatusChange(order.id, e.target.value)
                     }
-                    className="block w-40 pl-3 pr-10 py-2 text-base bg-gray-200 border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                    className="block w-40 pl-3 pr-10 py-2 text-base bg-gray-300 border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                   >
                     {orderStatusOptions.map((status) => (
                       <option key={status} value={status}>
