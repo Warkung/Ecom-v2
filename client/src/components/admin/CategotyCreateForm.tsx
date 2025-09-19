@@ -20,6 +20,13 @@ export default function CategotyCreateForm({
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      name.trim();
+      if (!name) {
+        toast.error("Category name is required", {
+          position: "bottom-right",
+        });
+        return;
+      }
       await createCategory(token, { name });
       toast.success("Category Created", {
         position: "bottom-right",

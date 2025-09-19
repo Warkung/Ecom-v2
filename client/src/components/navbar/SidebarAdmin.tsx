@@ -6,7 +6,7 @@ import { adminNavLinks } from "../../utils/link";
 
 // These links can be moved to a separate file like `src/utils/links.ts`
 
-export default function SidebarAdmin() {
+export default function SidebarAdmin({ isOpen }: { isOpen: boolean }) {
   const { user } = useEcomStore((state) => state);
 
   const handleLogout = () => {
@@ -23,7 +23,11 @@ export default function SidebarAdmin() {
     "flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50";
 
   return (
-    <aside className="hidden w-64 border-r bg-white dark:bg-gray-950 md:block">
+    <aside
+      className={`fixed z-20 h-full w-64 border-r bg-white transition-transform duration-300 ease-in-out dark:bg-gray-950 md:static md:translate-x-0 ${
+        isOpen ? "translate-x-0" : "-translate-x-full"
+      }`}
+    >
       <div className="flex h-full max-h-screen flex-col">
         <div className="flex h-16 items-center border-b px-6 justify-between">
           <Link to="/" className="flex items-center gap-2 font-semibold">

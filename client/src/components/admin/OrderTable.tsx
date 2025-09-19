@@ -34,6 +34,12 @@ export default function OrderTable() {
     }
   }, [token]);
 
+  console.log(
+    orders.map((order) => {
+      console.log(order.createdAt);
+    })
+  );
+
   const handleStatusChange = async (orderId: number, orderStatus: string) => {
     try {
       if (token) {
@@ -69,25 +75,25 @@ export default function OrderTable() {
             <tr>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-900 dark:text-gray-300 uppercase tracking-wider"
+                className="px-6 py-3 text-center text-xs font-medium text-gray-900 dark:text-gray-300 uppercase tracking-wider"
               >
                 Order ID
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-900 dark:text-gray-300 uppercase tracking-wider"
+                className="px-6 py-3 text-center text-xs font-medium text-gray-900 dark:text-gray-300 uppercase tracking-wider"
               >
                 Payment Status
               </th>
               <th
                 scope="col"
-                className="hidden px-6 py-3 text-left text-xs font-medium text-gray-900 dark:text-gray-300 uppercase tracking-wider md:table-cell"
+                className=" px-6 py-3 text-center text-xs font-medium text-gray-900 dark:text-gray-300 uppercase tracking-wider "
               >
                 Ordered By
               </th>
               <th
                 scope="col"
-                className="hidden px-6 py-3 text-left text-xs font-medium text-gray-900 dark:text-gray-300 uppercase tracking-wider lg:table-cell"
+                className=" px-6 py-3 text-center text-xs font-medium text-gray-900 dark:text-gray-300 uppercase tracking-wider "
               >
                 Products
               </th>
@@ -105,7 +111,7 @@ export default function OrderTable() {
               </th>
               <th
                 scope="col"
-                className="hidden px-6 py-3 text-center text-xs font-medium text-gray-900 dark:text-gray-300 uppercase tracking-wider md:table-cell"
+                className=" px-6 py-3 text-center text-xs font-medium text-gray-900 dark:text-gray-300 uppercase tracking-wider md:table-cell"
               >
                 Ordered Date
               </th>
@@ -120,7 +126,7 @@ export default function OrderTable() {
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-300">
                   #{order.id}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-center ">
                   <span
                     className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
                       order.status === "succeeded"
@@ -131,18 +137,18 @@ export default function OrderTable() {
                     {order.status}
                   </span>
                 </td>
-                <td className="hidden px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-300 md:table-cell">
+                <td className=" px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-300 md:table-cell">
                   {order.orderedBy?.name || order.orderedBy?.email}
                 </td>
-                <td className="hidden px-6 py-4 text-sm text-gray-800 dark:text-gray-300 lg:table-cell">
+                <td className=" px-6 py-4 text-sm text-gray-800 dark:text-gray-300 lg:table-cell">
                   <ul className="list-disc list-inside">
                     {order.products.map((item, index) => (
-                      <li key={index} className="flex items-center">
-                        <span
-                          className="max-w-72 truncate"
-                          title={item.product.title}
-                        >
-                          {item.product.title}
+                      <li
+                        key={index}
+                        className="flex items-center justify-between"
+                      >
+                        <span className="truncate" title={item.product.title}>
+                          {item.product.title.slice(0, 20)}
                         </span>
                         <span className="ml-1">x {item.count}</span>
                       </li>
@@ -161,7 +167,7 @@ export default function OrderTable() {
                     onChange={(e) =>
                       handleStatusChange(order.id, e.target.value)
                     }
-                    className="block w-full pl-3 pr-10 py-2 text-base bg-gray-200 border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                    className="block w-40 pl-3 pr-10 py-2 text-base bg-gray-200 border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                   >
                     {orderStatusOptions.map((status) => (
                       <option key={status} value={status}>
@@ -170,8 +176,12 @@ export default function OrderTable() {
                     ))}
                   </select>
                 </td>
-                <td className="hidden px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-300 text-center md:table-cell">
-                  {new Date(order.createdAt).toLocaleDateString()}
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-300 text-center md:table-cell">
+                  {new Date(order.createdAt).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                  })}
                 </td>
               </tr>
             ))}
