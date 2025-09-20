@@ -47,3 +47,11 @@ export const getOrder = async (token: string) =>
       Authorization: `Bearer ${token}`,
     },
   });
+
+  
+// export const deleteCart = async (token: string) =>
+//   await axios.delete(`${URL}/user/cart`, {
+//     headers: {
+//       Authorization: `Bearer ${token}`,
+//     },
+//   });

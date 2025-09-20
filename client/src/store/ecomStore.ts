@@ -80,6 +80,7 @@ const ecomStore = (
     }, 0);
     return totalPrice;
   },
+  clearCart: () => set({ carts: [] }),
 });
 
 const useEcomStore = create(

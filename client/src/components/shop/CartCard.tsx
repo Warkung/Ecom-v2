@@ -2,13 +2,12 @@ import { BrushCleaning, Minus, Plus, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import useEcomStore from "../../store/ecomStore";
 
-
 function CartCard() {
   const {
     carts,
     actionUpdateQuantity,
     actionRemoveFromCart,
-    actionClearCart,  
+    actionClearCart,
     getTotalPrice,
   } = useEcomStore((state) => state);
 
@@ -84,8 +83,9 @@ function CartCard() {
                   {cart.count}
                 </span>
                 <button
+                  disabled={cart.count >= cart.quantity}
                   onClick={() => actionUpdateQuantity(cart.id, cart.count + 1)}
-                  className=" bg-gray-300 mx-0.5 px-0.5 py-0.25 text-white rounded-md hover:cursor-pointer hover:bg-gray-500 transition-all duration-300 ease-in-out"
+                  className=" bg-gray-300 mx-0.5 px-0.5 py-0.25 text-white rounded-md hover:cursor-pointer hover:bg-gray-500 transition-all duration-300 ease-in-out disabled:cursor-not-allowed disabled:bg-gray-200"
                 >
                   <Plus size={18} />
                 </button>

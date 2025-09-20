@@ -1,4 +1,4 @@
-import { ListCheck, Reply } from "lucide-react";
+import { ListCheck, Minus, Plus, Reply, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -6,7 +6,14 @@ import useEcomStore from "../../store/ecomStore";
 import { createUserCart } from "../../api/user";
 
 function ListCart() {
-  const { getTotalPrice, user, token, carts } = useEcomStore((state) => state);
+  const {
+    getTotalPrice,
+    user,
+    token,
+    carts,
+    actionUpdateQuantity,
+    actionRemoveFromCart,
+  } = useEcomStore((state) => state);
   const navigate = useNavigate();
 
   const handleSaveCart = async () => {
@@ -53,7 +60,7 @@ function ListCart() {
                 className="bg-white p-2 rounded-md shadow-md mb-2"
               >
                 {/*Row1*/}
-                <div className="flex justify-between items-start sm:items-center gap-2">
+                <div className="flex justify-between items-center gap-2">
                   {/*Row1 left */}
                   <div className="flex gap-2 items-center">
                     {/* img */}
@@ -73,14 +80,45 @@ function ListCart() {
                       <p className="font-bold break-words text-gray-700">
                         {cart.title}
                       </p>
-                      <p className="text-gray-500 text-sm">
-                        ${cart.price.toLocaleString()} x {cart.count}
-                      </p>
+                      <div className="flex items-center gap-2 mt-2">
+                        <button
+                          onClick={() => {
+                            if (cart.count > 1) {
+                              actionUpdateQuantity(cart.id, cart.count - 1);
+                            } else {
+                              actionRemoveFromCart(cart.id);
+                            }
+                          }}
+                          className="bg-gray-200 text-gray-600 p-1 rounded-full hover:bg-gray-300 transition-colors"
+                        >
+                          <Minus size={14} />
+                        </button>
+                        <span className="font-semibold w-5 text-center text-gray-700"> 
+                          {cart.count}
+                        </span>
+                        <button
+                          onClick={() =>
+                            actionUpdateQuantity(cart.id, cart.count + 1)
+                          }
+                          disabled={cart.count >= cart.quantity}
+                          className="bg-gray-200 p-1 rounded-full text-gray-600 hover:bg-gray-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          <Plus size={14} />
+                        </button>
+                      </div>
                     </div>
                   </div>
                   {/*Row1 Right */}
-                  <div className="font-bold text-blue-500 px-2">
-                    ${(cart.price * cart.count).toLocaleString()}
+                  <div className="flex items-center gap-4">
+                    <div className="font-bold text-blue-500 px-2 min-w-[80px] text-right">
+                      ${(cart.price * cart.count).toLocaleString()}
+                    </div>
+                    <button
+                      onClick={() => actionRemoveFromCart(cart.id)}
+                      className="text-red-500 hover:text-red-700 transition-colors"
+                    >
+                      <Trash2 size={20} />
+                    </button>
                   </div>
                 </div>
               </div>

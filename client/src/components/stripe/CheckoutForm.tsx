@@ -10,7 +10,7 @@ import useEcomStore from "../../store/ecomStore";
 import { useNavigate } from "react-router-dom";
 
 export default function CheckoutForm() {
-  const { token } = useEcomStore((state) => state);
+  const { token, clearCart } = useEcomStore((state) => state);
   const stripe = useStripe();
   const elements = useElements();
 
@@ -37,16 +37,21 @@ export default function CheckoutForm() {
 
     if (payload.error) {
       setMessage(payload.error.message || "An unexpected error occurred.");
-    } else {
+    } else if (payload.paymentIntent.status === "succeeded") {
       try {
-        const res = token && (await saveOrder(token, payload));
-        console.log(res);
+        await saveOrder(token!, payload);
+        clearCart();
+        navigate("/user/history");
       } catch (error) {
         console.log(error);
+        setMessage("Order saved, but failed to update order history.");
       }
+    } else {
+      setMessage(
+        "Payment processing. We'll update you when payment is received."
+      );
     }
     setIsLoading(false);
-    navigate("/user/history");
   };
 
   const paymentElementOptions = {

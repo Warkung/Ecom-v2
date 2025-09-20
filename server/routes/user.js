@@ -10,7 +10,7 @@ const {
   getOrder,
   getUserById,
 } = require("../controllers/user");
-const { adminCheck, authCheck } = require("../middlewares/authCheck");
+const {  authCheck } = require("../middlewares/authCheck");
 
 const router = require("express").Router();
 

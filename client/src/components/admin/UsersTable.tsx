@@ -6,6 +6,7 @@ import {
   listAllUsers,
 } from "../../api/admin";
 import { toast } from "react-toastify";
+import { LoaderCircle } from "lucide-react";
 
 export type UserType = UserType2[];
 
@@ -45,11 +46,6 @@ export default function UsersTable() {
       if (token) {
         const payload = { id, enabled };
         await changeUserStatus(token, payload);
-        toast.success(
-          `User status updated to ${
-            enabled ? "Active" : "Inactive"
-          } successfully`
-        );
         fetchUserData();
       }
     } catch (error) {
@@ -63,7 +59,6 @@ export default function UsersTable() {
       if (token) {
         const payload = { id, role };
         await changeUserRole(token, payload);
-        toast.success(`User role updated to ${role} successfully`);
         fetchUserData();
       }
     } catch (error) {
@@ -77,7 +72,12 @@ export default function UsersTable() {
   }, [fetchUserData]);
 
   if (isLoading) {
-    return <div className="mt-10 text-center">Loading users...</div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <LoaderCircle size="3rem" className="animate-spin" />
+        <span>Loading...</span>
+      </div>
+    );
   }
 
   if (users.length === 0) {
@@ -157,20 +157,20 @@ export default function UsersTable() {
                   </select>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-center">
-                  <button
-                    onClick={() => handleChangeStatus(user.id, !user.enabled)}
-                    className="focus:outline-none"
-                  >
-                    <span
-                      className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                        user.enabled
-                          ? "bg-green-300 text-green-900 dark:bg-green-900 dark:text-green-200"
-                          : "bg-red-300 text-red-900 dark:bg-red-900 dark:text-red-200"
-                      }`}
-                    >
+                  <label className="relative inline-flex items-center cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={user.enabled}
+                      onChange={() =>
+                        handleChangeStatus(user.id, !user.enabled)
+                      }
+                      className="sr-only peer"
+                    />
+                    <div className="w-11 h-6 bg-red-300 rounded-full peer dark:bg-red-900 peer-checked:bg-green-300 dark:peer-checked:bg-green-900 peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-white after:border after:rounded-full after:h-5 after:w-5 after:transition-all after:duration-300 transition-colors"></div>
+                    <span className="ml-3 text-sm font-medium text-gray-800 dark:text-gray-300 w-16">
                       {user.enabled ? "Active" : "Inactive"}
                     </span>
-                  </button>
+                  </label>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-300">
                   {user.address || "N/A"}

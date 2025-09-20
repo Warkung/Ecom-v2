@@ -47,4 +47,5 @@ export interface EcomStoreState {
   actionRemoveFromCart: (id: string) => void;
   actionClearCart: () => void;
   getTotalPrice: () => number;
+  clearCart: () => void;
 }
