@@ -62,7 +62,7 @@ export default function MainNav({
                 </Link>
               )
             )}
-            {user && user.role === "admin" && (
+            {/* {user && user.role === "admin" && (
               <Link
                 hidden={hidden}
                 to="/admin"
@@ -70,23 +70,27 @@ export default function MainNav({
               >
                 Admin
               </Link>
-            )}
+            )} */}
           </div>
 
           {/* Desktop Auth Links */}
           <div className="items-center space-x-4 mx-16 ">
             {user ? (
               <div className="flex items-center gap-4">
-                {user && user.role === "admin" && <UserRoundCog />}
+                {user && user.role === "admin" && (
+                  <Link to="/admin">
+                    <UserRoundCog />
+                  </Link>
+                )}
                 <span className="">{user.name || user.email}</span>
-                <button onClick={handleLogout} className="py-2 px-3  rounded ">
+                <button onClick={handleLogout} className="py-2 px-3 rounded ">
                   Logout
                 </button>
                 <ModeToggle />
               </div>
             ) : (
               <div className="hidden md:flex items-center space-x-4">
-                <Link to="/login" className="py-2 px-3  rounded ">
+                <Link to="/login" className="py-2 px-3 rounded ">
                   Login
                 </Link>
                 <Link to="/register" className="py-2 px-3  rounded ">
