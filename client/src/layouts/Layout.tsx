@@ -5,7 +5,7 @@ import { navLinks } from "../utils/link";
 export default function Layout() {
   return (
     <div>
-      <MainNav navLinks={navLinks} hidden={false} />
+      <MainNav navLinks={navLinks} />
       <main className="container mx-auto px-6 mt-6">
         <Outlet />
       </main>

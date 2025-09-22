@@ -16,6 +16,15 @@ const ecomStore = (
   categories: [],
   products: [],
   carts: [],
+  actionLogout: () => {
+    set({
+      user: null,
+      token: null,
+      categories: [],
+      products: [],
+      carts: [],
+    });
+  },
   actionLogin: async (form: Record<string, any>) => {
     const res = await axios.post(`${URL}/login`, form);
     set({

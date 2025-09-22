@@ -60,9 +60,9 @@ function ListCart() {
                 className="bg-white p-2 rounded-md shadow-md mb-2"
               >
                 {/*Row1*/}
-                <div className="flex justify-between items-center gap-2">
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
                   {/*Row1 left */}
-                  <div className="flex gap-2 items-center">
+                  <div className="flex flex-1 gap-2 items-center">
                     {/* img */}
                     <div className="w-20 h-20 shadow bg-gray-200 rounded-md text-center flex justify-center items-center flex-shrink-0">
                       {cart.images.length !== 0 ? (
@@ -93,7 +93,7 @@ function ListCart() {
                         >
                           <Minus size={14} />
                         </button>
-                        <span className="font-semibold w-5 text-center text-gray-700"> 
+                        <span className="font-semibold w-5 text-center text-gray-700">
                           {cart.count}
                         </span>
                         <button
@@ -109,8 +109,8 @@ function ListCart() {
                     </div>
                   </div>
                   {/*Row1 Right */}
-                  <div className="flex items-center gap-4">
-                    <div className="font-bold text-blue-500 px-2 min-w-[80px] text-right">
+                  <div className="flex w-full items-center justify-between pt-2 sm:w-auto sm:flex-col sm:items-end sm:justify-start sm:pt-0 sm:border-none border-t gap-2">
+                    <div className="font-bold text-blue-500 text-right">
                       ${(cart.price * cart.count).toLocaleString()}
                     </div>
                     <button
@@ -125,9 +125,11 @@ function ListCart() {
             ))}
           </div>
           {/* Right */}
-          <div className=" bg-white px-6 py-4 rounded shadow-md max-h-60 overflow-y-auto">
+          <div className="bg-white px-6 py-4 rounded shadow-md">
             <div className="flex items-center justify-between mb-4 ">
-              <h1 className="text-2xl font-bold text-gray-800 ">Total</h1>
+              <h1 className="text-xl font-bold text-gray-800 sm:text-2xl">
+                Total
+              </h1>
               <Link to={"/shop"}>
                 <button className="text-sm font-bold shadow bg-red-700 text-white px-4 py-1 rounded-md hover:cursor-pointer hover:bg-gray-400 transition-all duration-300 ease-in-out">
                   <Reply size={16} />
@@ -148,7 +150,7 @@ function ListCart() {
               carts.length > 0 ? (
                 <button
                   onClick={handleSaveCart}
-                  className="text-xl font-bold shadow w-full mt-4 bg-green-800 text-white px-4 py-3 rounded-md hover:cursor-pointer hover:bg-green-700 transition-all duration-300 ease-in-out"
+                  className="text-lg font-bold shadow w-full mt-4 bg-green-800 text-white px-4 py-3 rounded-md hover:cursor-pointer hover:bg-green-700 transition-all duration-300 ease-in-out sm:text-xl"
                 >
                   {`Checkout : $${getTotalPrice().toLocaleString()}`}
                 </button>

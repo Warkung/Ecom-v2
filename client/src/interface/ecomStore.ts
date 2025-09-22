@@ -38,6 +38,7 @@ export interface EcomStoreState {
   categories: Category[];
   products: Product[];
   carts: CartItem[];
+  actionLogout: () => void;
   actionLogin: (form: Record<string, any>) => Promise<any>;
   actionGetCategories: () => Promise<void>;
   actionGetProducts: (count: number | undefined) => Promise<void>;

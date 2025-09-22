@@ -1,5 +1,5 @@
 import { AlignRight, UserRoundCog } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import useEcomStore from "../../store/ecomStore";
 import {
   DropdownMenu,
@@ -13,17 +13,20 @@ import { ModeToggle } from "../darkmode/mode-toggle";
 
 export default function MainNav({
   navLinks,
-  hidden,
 }: {
   navLinks: { path: string; label: string }[];
-  hidden: boolean;
 }) {
-  const { user, carts } = useEcomStore((state) => state);
+  const { user, carts, actionLogout } = useEcomStore((state) => state);
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     if (window.confirm("Are you sure you want to logout?")) {
-      localStorage.removeItem("ecom-store");
-      window.location.href = "/";
+      actionLogout();
+      navigate("/");
+      
+      // or
+      // localStorage.removeItem("ecom-store");
+      // window.location.href = "/";
     }
   };
 
@@ -38,39 +41,27 @@ export default function MainNav({
               <Link to="/">Logo</Link>
             </div>
 
-            {navLinks.map((item, index) =>
-              item.label !== "cart" ? (
-                <Link
-                  key={index}
-                  to={item.path}
-                  className="py-2 px-5  rounded capitalize "
-                >
-                  {item.label}
-                </Link>
-              ) : (
-                <Link
-                  key={index}
-                  to={item.path}
-                  className="py-2 px-5  rounded relative capitalize"
-                >
-                  {item.label}
-                  {carts.length > 0 && (
-                    <span className="text-[12px] rounded-full px-2 bg-red-500 text-gray-100 absolute top-0 right-0">
-                      {carts.length}
-                    </span>
-                  )}
-                </Link>
-              )
-            )}
-            {/* {user && user.role === "admin" && (
-              <Link
-                hidden={hidden}
-                to="/admin"
-                className="py-2 px-3  rounded  "
+            {navLinks.map((item, index) => (
+              <NavLink
+                key={index}
+                to={item.path}
+                end={item.path === "/"}
+                className={({ isActive }) =>
+                  `py-2 px-5 rounded capitalize relative transition-colors ${
+                    isActive
+                      ? "bg-gray-100 dark:bg-gray-700 font-semibold"
+                      : "hover:bg-gray-100 dark:hover:bg-gray-700"
+                  }`
+                }
               >
-                Admin
-              </Link>
-            )} */}
+                {item.label}
+                {item.label === "cart" && carts.length > 0 && (
+                  <span className="text-[12px] rounded-full px-2 bg-red-500 text-gray-100 absolute top-0 right-0">
+                    {carts.length}
+                  </span>
+                )}
+              </NavLink>
+            ))}
           </div>
 
           {/* Desktop Auth Links */}
@@ -78,30 +69,82 @@ export default function MainNav({
             {user ? (
               <div className="flex items-center gap-4">
                 {user && user.role === "admin" && (
-                  <Link to="/admin">
+                  <NavLink
+                    to="/admin"
+                    className={({ isActive }) =>
+                      `p-2 rounded-full transition-colors ${
+                        isActive
+                          ? "bg-gray-100 dark:bg-gray-700"
+                          : "hover:bg-gray-100 dark:hover:bg-gray-700"
+                      }`
+                    }
+                  >
                     <UserRoundCog />
-                  </Link>
+                  </NavLink>
                 )}
-                <span className="">{user.name || user.email}</span>
-                <button onClick={handleLogout} className="py-2 px-3 rounded ">
-                  Logout
-                </button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 dark:focus:ring-gray-400">
+                      <img
+                        src="https://cdn.iconscout.com/icon/free/png-512/free-avatar-icon-svg-download-png-456322.png?f=webp&w=256"
+                        alt={user?.name || user?.email}
+                        className="w-8 h-8 rounded-full object-cover"
+                      />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuLabel>
+                      {user.name || user.email}
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                      <Link to="/profile">Profile</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to="/user/history">History</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleLogout}>
+                      Logout
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
                 <ModeToggle />
               </div>
             ) : (
               <div className="hidden md:flex items-center space-x-4">
-                <Link to="/login" className="py-2 px-3 rounded ">
+                <NavLink
+                  to="/login"
+                  className={({ isActive }) =>
+                    `py-2 px-3 rounded transition-colors ${
+                      isActive
+                        ? "bg-gray-100 dark:bg-gray-700"
+                        : "hover:bg-gray-100 dark:hover:bg-gray-700"
+                    }`
+                  }
+                >
                   Login
-                </Link>
-                <Link to="/register" className="py-2 px-3  rounded ">
+                </NavLink>
+                <NavLink
+                  to="/register"
+                  className={({ isActive }) =>
+                    `py-2 px-3 rounded transition-colors ${
+                      isActive
+                        ? "bg-gray-100 dark:bg-gray-700"
+                        : "hover:bg-gray-100 dark:hover:bg-gray-700"
+                    }`
+                  }
+                >
                   Register
-                </Link>
+                </NavLink>
                 <ModeToggle />
               </div>
             )}
           </div>
         </div>
 
+        {/* Mobile */}
+        {/* Mobile */}
         {/* Mobile */}
         <div className="md:hidden flex justify-between px-6 py-2  ">
           <div>
@@ -113,9 +156,9 @@ export default function MainNav({
           {/* Mobile Hamburger Button */}
           <div className="flex gap-4">
             {user && user.role === "admin" && (
-              <div className=" mt-1.5 px-2 rounded-2xl ">
+              <Link to="/admin" className=" mt-1.5 px-2 rounded-2xl ">
                 <UserRoundCog />
-              </div>
+              </Link>
             )}
 
             <ModeToggle />
@@ -132,41 +175,84 @@ export default function MainNav({
                     <DropdownMenuSeparator />
                   </>
                 )}
-                {navLinks.map((item, index) => (
-                  <DropdownMenuItem key={index}>
-                    <Link to={item.path}>
-                      {item.label !== "cart" ? (
-                        item.label
-                      ) : (
-                        <>
-                          {item.label}
-                          {carts.length > 0 && (
-                            <p className=" absolute top-2 left-10 bg-red-600 px-1.5 rounded-full">
+                {navLinks.map((item, index) => {
+                  const isCart = item.label === "cart";
+                  return (
+                    <DropdownMenuItem key={index} asChild>
+                      <NavLink
+                        to={item.path}
+                        end={item.path === "/"}
+                        className={({ isActive }) =>
+                          `capitalize w-full ${isActive ? "font-bold" : ""}`
+                        }
+                      >
+                        <div className="flex justify-between w-full items-center">
+                          <span>{item.label}</span>
+                          {isCart && carts.length > 0 && (
+                            <span className="text-xs rounded-full px-1.5 bg-red-500 text-gray-100">
                               {carts.length}
-                            </p>
+                            </span>
                           )}
-                        </>
-                      )}
-                    </Link>
+                        </div>
+                      </NavLink>
+                    </DropdownMenuItem>
+                  );
+                })}
+                {/* {user && user.role === "admin" && (
+                  <DropdownMenuItem hidden={hidden} asChild>
+                    <NavLink
+                      to={"/admin"}
+                      className={({ isActive }) =>
+                        `w-full ${isActive ? "font-bold" : ""}`
+                      }
+                    >
+                      Admin
+                    </NavLink>
                   </DropdownMenuItem>
-                ))}
-                {user && user.role === "admin" && (
-                  <DropdownMenuItem hidden={hidden}>
-                    <Link to={"/admin"}>Admin</Link>
-                  </DropdownMenuItem>
-                )}
+                )} */}
                 <DropdownMenuSeparator />
                 {user ? (
-                  <DropdownMenuItem>
-                    <button onClick={handleLogout}>Logout</button>
-                  </DropdownMenuItem>
-                ) : (
                   <>
-                    <DropdownMenuItem>
-                      <Link to={"/login"}>Login</Link>
+                    <DropdownMenuItem asChild>
+                      <NavLink
+                        to="/profile"
+                        className={({ isActive }) =>
+                          `w-full ${isActive ? "font-bold" : ""}`
+                        }
+                      >
+                        Profile
+                      </NavLink>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
-                      <Link to={"/register"}>Register</Link>
+                      <button
+                        onClick={handleLogout}
+                        className="w-full text-left"
+                      >
+                        Logout
+                      </button>
+                    </DropdownMenuItem>
+                  </>
+                ) : (
+                  <>
+                    <DropdownMenuItem asChild>
+                      <NavLink
+                        to={"/login"}
+                        className={({ isActive }) =>
+                          `w-full ${isActive ? "font-bold" : ""}`
+                        }
+                      >
+                        Login
+                      </NavLink>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <NavLink
+                        to={"/register"}
+                        className={({ isActive }) =>
+                          `w-full ${isActive ? "font-bold" : ""}`
+                        }
+                      >
+                        Register
+                      </NavLink>
                     </DropdownMenuItem>
                   </>
                 )}
