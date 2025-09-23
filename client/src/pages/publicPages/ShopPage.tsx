@@ -38,8 +38,8 @@ export default function ShopPage() {
       <div className="order-2 md:order-none md:w-2/4 w-full p-2 overflow-y-auto ">
         <h1 className="text-2xl font-bold mb-4">Products</h1>
         <div className="flex flex-wrap justify-center gap-4">
-          {products.map((product, index) => (
-            <ProductCard key={index} product={product} />
+          {products.map((product) => (
+            <ProductCard key={product.id} product={product} />
           ))}
         </div>
       </div>
