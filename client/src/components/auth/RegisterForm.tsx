@@ -2,7 +2,7 @@ import { Eye, EyeClosed } from "lucide-react";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { register } from "../../api/auth";
+import { registerAPI } from "../../api/auth";
 
 export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -34,7 +34,7 @@ export default function RegisterForm() {
       return;
     }
     try {
-      await register(form);
+      await registerAPI(form);
       toast.success("Registration successful! Please log in.", {
         position: "bottom-right",
         autoClose: 2000,

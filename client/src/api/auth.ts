@@ -31,7 +31,7 @@ export const currentAdmin = async (
     }
   );
 
-export const register = async (form: {
+export const registerAPI = async (form: {
   email: string;
   password: string;
   confirmPassword?: string;

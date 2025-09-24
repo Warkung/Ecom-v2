@@ -49,7 +49,7 @@ export default function SidebarAdmin({ isOpen }: { isOpen: boolean }) {
                 }
               >
                 <link.icon className="h-5 w-5" />
-                {link.label}
+                <p className="truncate capitalize">{link.label}</p>
               </NavLink>
             ))}
           </nav>

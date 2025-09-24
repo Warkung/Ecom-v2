@@ -31,3 +31,9 @@ export const deleteProduct = async (token: string, id: string) =>
 
 export const searchFilters = async (arg: any) =>
   await axios.post(`${URL}/search/filters`, arg);
+
+export const sortProducts = async (form: {
+  sort: string;
+  order: "asc" | "desc";
+  limit: number;
+}) => await axios.post(`${URL}/productby`, form);

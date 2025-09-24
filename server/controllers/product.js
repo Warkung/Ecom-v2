@@ -196,11 +196,11 @@ exports.listProductBy = async (req, res) => {
       },
       take: parseInt(limit),
       include: {
-        Category: true,
+        category: true,
         images: true,
       },
     });
-    res.status(200).json({ message: { sort, order, limit }, products });
+    res.status(200).send({ message: { sort, order, limit }, products });
   } catch (error) {
     internalErr(res, error);
   }

@@ -47,7 +47,7 @@ exports.login = async (req, res) => {
       },
     });
     if (!user) return res.status(400).json({ message: "User not found" });
-    if (!user.enabled) return res.status(400).send("User not enable");
+    if (!user.enabled) return res.status(400).send("User not enable. Please contact admin");
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) res.status(400).json({ message: "Password invalid" });

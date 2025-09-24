@@ -1,7 +1,5 @@
 import { Link } from "react-router-dom";
 import useEcomStore from "../../store/ecomStore";
-import ProductCard from "../shop/ProductCard";
-
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -11,13 +9,13 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 
 // import required modules
-import { Pagination, Navigation } from "swiper/modules";
+import { Pagination, Navigation, Autoplay } from "swiper/modules";
 
 export default function Content2() {
   const { products } = useEcomStore((state) => state);
 
   return (
-    <section className="py-12">
+    <section>
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-8">
           Featured Products
@@ -26,8 +24,9 @@ export default function Content2() {
           slidesPerView={1}
           spaceBetween={10}
           navigation={true}
-          pagination={{
-            clickable: true,
+          autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
           }}
           breakpoints={{
             640: {
@@ -43,17 +42,18 @@ export default function Content2() {
               spaceBetween: 20,
             },
           }}
-          modules={[Pagination, Navigation]}
+          modules={[Pagination, Navigation, Autoplay]}
           className="mySwiper"
         >
           {products.slice(0, 8).map((product) => (
             <SwiperSlide key={product.id}>
-              <div className="">
+              <div className="group relative block overflow-hidden rounded-lg border border-gray-200">
                 <img
-                  className="h-60 object-bottom  w-full rounded"
+                  className="h-64 w-full object-cover transition duration-500 group-hover:scale-105"
                   src={product.images[0].url}
                   alt={product.title}
                 />
+                <div className="absolute inset-0 bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300"></div>
               </div>
             </SwiperSlide>
           ))}

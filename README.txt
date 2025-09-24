@@ -57,12 +57,6 @@ Tam123456
 
 
 
-
-
-
-
-
-
 -----------Server---------------
 npm init -y
 npm install express mongoose morgan body-parser cors nodemon socket.io

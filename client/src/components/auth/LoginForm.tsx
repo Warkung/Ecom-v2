@@ -2,7 +2,7 @@ import { Eye, EyeClosed } from "lucide-react";
 import { useState } from "react";
 import useEcomStore from "../../store/ecomStore";
 import { Link, useNavigate } from "react-router-dom";
-import type { ErrorResponse, LoginResponse } from "../../interface/auth";
+import type { LoginResponse } from "../../interface/auth";
 import { toast } from "react-toastify";
 
 export default function LoginForm() {
@@ -46,8 +46,8 @@ export default function LoginForm() {
           autoClose: 2000,
         });
       }
-    } catch (error: any) {
-      toast.error(error.response.data || error.message, {
+    } catch (error: any) {      
+      toast.error(error.response.data.message || error.message, {
         position: "bottom-right",
       });
     }
