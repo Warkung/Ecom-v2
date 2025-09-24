@@ -7,20 +7,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import zxcvbn from "zxcvbn";
 import { toast } from "react-toastify";
 import { registerAPI } from "../../api/auth";
-import { set } from "lodash";
 
-type Inputs = {
+interface Inputs {
   email: string;
   password: string;
   confirmPassword: string;
-};
+}
 
 const registerSchema = z
   .object({
     email: z.string().email({ message: "Invalid email address" }),
-    password: z
-      .string()
-      .min(6, { message: "Password must be at least 6 characters long" }),
+    password: z.string().min(6, { message: "Must be more than 6 characters" }),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -38,6 +35,10 @@ export default function RegisterForm2() {
   } = useForm<Inputs>({
     resolver: zodResolver(registerSchema),
   });
+
+  // const email = watch("email");
+  // const password = watch("password");
+  // const confirmPassword = watch("confirmPassword");
 
   const [checkPasswordStrength, setCheckPasswordStrength] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
