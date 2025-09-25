@@ -59,7 +59,10 @@ export default function ProductCard({ product }: { product: Product }) {
           </div>
         </div>
         <div className="mt-4 h-20">
-          <p className="font-bold text-xl text-stone-800 text-nowrap overflow-hidden">
+          <p
+            className="font-bold text-xl text-stone-800 text-nowrap overflow-hidden"
+            title={product.title}
+          >
             {product.title}
           </p>
           <p className="text-stone-600 text-sm mt-1 text-nowrap overflow-hidden">

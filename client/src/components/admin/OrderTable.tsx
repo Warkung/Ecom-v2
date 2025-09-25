@@ -34,12 +34,6 @@ export default function OrderTable() {
     }
   }, [token]);
 
-  console.log(
-    orders.map((order) => {
-      console.log(order.createdAt);
-    })
-  );
-
   const handleStatusChange = async (orderId: number, orderStatus: string) => {
     try {
       if (token) {

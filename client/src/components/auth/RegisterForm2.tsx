@@ -13,11 +13,11 @@ interface Inputs {
   password: string;
   confirmPassword: string;
 }
-
+// Validation schema
 const registerSchema = z
   .object({
     email: z.string().email({ message: "Invalid email address" }),
-    password: z.string().min(6, { message: "Must be more than 6 characters" }),
+    password: z.string().min(6, { message: "Must be at least 6 characters" }),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -36,11 +36,9 @@ export default function RegisterForm2() {
     resolver: zodResolver(registerSchema),
   });
 
-  // const email = watch("email");
-  // const password = watch("password");
-  // const confirmPassword = watch("confirmPassword");
+  const password = watch("password", "");
+  const passwordStrength = zxcvbn(password);
 
-  const [checkPasswordStrength, setCheckPasswordStrength] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
@@ -48,11 +46,6 @@ export default function RegisterForm2() {
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const passwordScore = zxcvbn(data.password).score;
-    if (passwordScore < 3) {
-      setCheckPasswordStrength(true);
-      return;
-    }
     try {
       await registerAPI(data);
       toast.success("Registration successful! Please log in.", {
@@ -64,9 +57,30 @@ export default function RegisterForm2() {
       toast.error(error.response.data.message || error.message, {
         position: "bottom-right",
       });
-    } finally {
-      setCheckPasswordStrength(false);
     }
+  };
+
+  const strengthIndicator = () => {
+    const score = password ? passwordStrength.score + 1 : 0;
+    const colors = [
+      "bg-gray-300", // score 0
+      "bg-red-500", // score 1
+      "bg-orange-500", // score 2
+      "bg-yellow-500", // score 3
+      "bg-lime-500", // score 4
+      "bg-green-500", // score 5
+    ];
+
+    return (
+      <div className="flex gap-1 mt-1 h-2 rounded-full overflow-hidden">
+        {Array.from(Array(5).keys()).map((i) => (
+          <div
+            key={i}
+            className={`w-1/5 ${i < score ? colors[score] : colors[0]}`}
+          />
+        ))}
+      </div>
+    );
   };
 
   return (
@@ -107,16 +121,10 @@ export default function RegisterForm2() {
             htmlFor="password"
           >
             <p>Password</p>
-            {errors.password ? (
+            {errors.password && (
               <p className="text-red-500 text-xs italic">
                 {errors.password.message}
               </p>
-            ) : (
-              checkPasswordStrength && (
-                <p className="text-red-500 text-xs italic">
-                  Password is too weak
-                </p>
-              )
             )}
           </label>
           <div className="relative">
@@ -135,10 +143,12 @@ export default function RegisterForm2() {
               {showPassword ? <Eye size={20} /> : <EyeClosed size={20} />}
             </button>
           </div>
+
+          <div className="mt-1">{strengthIndicator()}</div>
         </div>
 
         {/* Confirm password */}
-        <div className="mb-6">
+        <div className="my-6">
           <label
             className="flex justify-between  text-sm font-bold mb-2"
             htmlFor="confirmPassword"
@@ -155,7 +165,7 @@ export default function RegisterForm2() {
               className="shadow appearance-none border rounded w-full py-2 px-3  mb-3 leading-tight focus:outline-none focus:shadow-outline"
               type={showPassword ? "text" : "password"}
               id="confirmPassword"
-              placeholder="••••••••••••••••"
+              placeholder="Confirm your password"
               {...register("confirmPassword", { required: true, minLength: 6 })}
             />
             <button
@@ -167,6 +177,8 @@ export default function RegisterForm2() {
             </button>
           </div>
         </div>
+
+        {/* Submit button */}
         <div className="flex items-center justify-between">
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
