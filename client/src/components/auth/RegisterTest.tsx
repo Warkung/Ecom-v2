@@ -13,6 +13,8 @@ const validate = z.object({
   password: z.string().min(6, { message: "hello" }),
 });
 
+
+
 export default function RegisterTest() {
   const {
     register,

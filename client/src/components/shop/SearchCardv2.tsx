@@ -87,6 +87,29 @@ export default function SearchCardv2() {
     }
   };
 
+  const handleDisplayPriceInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: 0 | 1
+  ) => {
+    const value = e.target.value;
+    // Allow empty string or numbers
+    if (value === "" || /^[0-9]+$/.test(value)) {
+      const newDisplayPrice = [...displayPrice];
+      newDisplayPrice[index] = value === "" ? 0 : parseInt(value, 10);
+      setDisplayPrice(newDisplayPrice);
+    }
+  };
+
+  const handlePriceInputBlur = () => {
+    let [min, max] = displayPrice;
+    if (min > max) {
+      [min, max] = [max, min];
+    }
+    min = Math.max(MIN_PRICE, Math.min(min, MAX_PRICE));
+    max = Math.max(MIN_PRICE, Math.min(max, MAX_PRICE));
+    setPrice([min, max]);
+  };
+
   const handleResetFilters = () => {
     setText("");
     setCategorySelect([]);
@@ -118,7 +141,7 @@ export default function SearchCardv2() {
               <input
                 type="checkbox"
                 id={`cat-${category.id}`}
-                value={category.id}
+                // value={category.id}
                 onChange={handleCheckCategory}
                 className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
               />
@@ -136,6 +159,25 @@ export default function SearchCardv2() {
       {/* Filter by Price */}
       <div className="mb-6">
         <h2 className="text-lg font-semibold mb-2">Price Range</h2>
+        <div className="flex justify-between items-center gap-2 mb-2">
+          <input
+            type="text"
+            value={displayPrice[0]}
+            onChange={(e) => handleDisplayPriceInputChange(e, 0)}
+            onBlur={handlePriceInputBlur}
+            className="w-full border rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Min"
+          />
+          <span className="text-gray-500">-</span>
+          <input
+            type="text"
+            value={displayPrice[1]}
+            onChange={(e) => handleDisplayPriceInputChange(e, 1)}
+            onBlur={handlePriceInputBlur}
+            className="w-full border rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Max"
+          />
+        </div>
         <div>
           <Slider
             onChange={(value) => Array.isArray(value) && setDisplayPrice(value)}
